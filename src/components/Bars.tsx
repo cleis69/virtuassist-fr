@@ -6,7 +6,7 @@ export function Bars({
   className,
 }: {
   tone?: "sombre" | "clair";
-  className?: string;
+  className?: string | undefined;
 }) {
   const base = tone === "clair" ? "bg-on-nuit" : "bg-nuit";
   return (
@@ -19,7 +19,7 @@ export function Bars({
 }
 
 /** Puce de liste dérivée du motif. */
-export function BarBullet({ className }: { className?: string }) {
+export function BarBullet({ className }: { className?: string | undefined }) {
   return (
     <span
       aria-hidden="true"

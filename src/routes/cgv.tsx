@@ -36,7 +36,7 @@ function Cgv() {
   return (
     <div className="min-h-screen bg-ivoire">
       <SiteHeader />
-      <main className="mx-auto max-w-3xl px-5 py-16 sm:py-20">
+      <main className="mx-auto max-w-3xl px-5 pt-32 pb-24 sm:pt-40 sm:pb-32">
         <Bars className="mb-8" />
         <h1 className="font-display text-4xl text-nuit sm:text-5xl">
           Conditions générales de vente

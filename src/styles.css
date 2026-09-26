@@ -8,6 +8,11 @@
  * VIRTUASSIST design system.
  * Palette: bleu-nuit #0F2A3D, bleu-clair #2C86AF, vague #14A3A0,
  * vague-profonde #0E7C79, ivoire #F7F5F0, ardoise #445663.
+ *
+ * Trois voix typographiques :
+ *  - Instrument Serif : la voix de la marque (logotype, titres).
+ *  - Manrope : le texte courant.
+ *  - IBM Plex Mono : les pièces administratives (numéros, délais, tarifs).
  */
 
 @theme inline {
@@ -20,6 +25,7 @@
   --radius-4xl: calc(var(--radius) + 16px);
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -45,10 +51,16 @@
   --color-bleu-clair: var(--bleu-clair);
   --color-vague: var(--vague);
   --color-vague-profonde: var(--vague-profonde);
+  --color-vague-clair: var(--vague-clair);
   --color-ivoire: var(--ivoire);
+  --color-ivoire-2: var(--ivoire-2);
+  --color-papier: var(--papier);
   --color-ardoise: var(--ardoise);
   --color-on-nuit: var(--on-nuit);
   --color-on-nuit-muted: var(--on-nuit-muted);
+
+  --ease-sortie: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-ressort: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 :root {
@@ -59,7 +71,10 @@
   --bleu-clair: oklch(0.5859 0.1035 232.47);
   --vague: oklch(0.6482 0.1081 192.45);
   --vague-profonde: oklch(0.5311 0.0884 191.78);
+  --vague-clair: oklch(0.935 0.035 195);
   --ivoire: oklch(0.9703 0.007 88.64);
+  --ivoire-2: oklch(0.945 0.01 88);
+  --papier: oklch(0.995 0.002 90);
   --ardoise: oklch(0.4431 0.0309 239.77);
   --on-nuit: oklch(0.97 0.007 88.64);
   --on-nuit-muted: oklch(0.82 0.018 230);
@@ -96,10 +111,17 @@
     oklch(0.8428 0.0653 214.68) 55%,
     oklch(0.6482 0.1081 192.45) 100%
   );
-  --shadow-carte: 0 1px 2px oklch(0.2742 0.0482 242.12 / 6%),
-    0 12px 28px -18px oklch(0.2742 0.0482 242.12 / 35%);
-  --shadow-carte-forte: 0 2px 4px oklch(0.2742 0.0482 242.12 / 8%),
-    0 24px 48px -24px oklch(0.2742 0.0482 242.12 / 45%);
+  --shadow-carte:
+    0 1px 2px oklch(0.2742 0.0482 242.12 / 6%), 0 12px 28px -18px oklch(0.2742 0.0482 242.12 / 35%);
+  --shadow-carte-forte:
+    0 2px 4px oklch(0.2742 0.0482 242.12 / 8%), 0 24px 48px -24px oklch(0.2742 0.0482 242.12 / 45%);
+  /* Une feuille posée : contact net, puis ombre longue et douce. */
+  --shadow-feuille:
+    0 1px 1px oklch(0.2742 0.0482 242.12 / 8%), 0 6px 14px -6px oklch(0.2742 0.0482 242.12 / 18%),
+    0 30px 60px -30px oklch(0.2742 0.0482 242.12 / 40%);
+
+  /* Hauteur réservée à la barre de navigation basse, sur mobile. */
+  --bottom-nav: 5.75rem;
 }
 
 @layer base {
@@ -107,16 +129,47 @@
     border-color: var(--color-border);
   }
 
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* clip et non hidden : hidden casserait position: sticky. */
+    overflow-x: clip;
   }
 
   ::selection {
     background-color: var(--vague);
     color: oklch(1 0 0);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--vague);
+    outline-offset: 3px;
+  }
+
+  /* Lenis — défilement adouci, souris uniquement */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis:not(.lenis-autoToggle).lenis-stopped {
+    overflow: clip;
+  }
+
+  .lenis [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
   }
 }
 
@@ -128,19 +181,23 @@
 @utility texte-marque {
   background-image: var(--gradient-marque);
   background-clip: text;
+  -webkit-background-clip: text;
   color: transparent;
 }
 
 @utility texte-marque-clair {
   background-image: var(--gradient-marque-sombre);
   background-clip: text;
+  -webkit-background-clip: text;
   color: transparent;
 }
 
+/* Étiquette de section : la voix « document » de la marque. */
 @utility label-section {
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -151,16 +208,63 @@
   box-shadow: var(--shadow-carte);
 }
 
+@utility feuille {
+  background-color: var(--papier);
+  box-shadow: var(--shadow-feuille);
+}
+
+/* Papier réglé, très discret : le registre, pas le décor. */
+@utility regle {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 39px,
+    oklch(0.2742 0.0482 242.12 / 5.5%) 39px 40px
+  );
+}
+
+@utility regle-sombre {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 39px,
+    oklch(0.97 0.007 88.64 / 4.5%) 39px 40px
+  );
+}
+
+/* Grain photographique pour les aplats sombres. */
+@utility grain {
+  position: relative;
+  isolation: isolate;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+}
+
+/* Texte détouré, pour les très grands chiffres de fond. */
+@utility contour {
+  color: transparent;
+  -webkit-text-stroke: 1px currentColor;
+}
+
 @utility reveal {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(24px);
+  filter: blur(6px);
   transition:
-    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 900ms var(--ease-sortie),
+    transform 900ms var(--ease-sortie),
+    filter 900ms var(--ease-sortie);
 
   &[data-visible="true"] {
     opacity: 1;
     transform: none;
+    filter: none;
   }
 }
 
@@ -170,9 +274,45 @@
   animation: trace 1600ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 
+@utility pastille-vivante {
+  animation: pastille 2.4s ease-out infinite;
+}
+
+@utility defile-lent {
+  animation: tourne 28s linear infinite;
+}
+
 @keyframes trace {
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+@keyframes pastille {
+  0% {
+    box-shadow: 0 0 0 0 oklch(0.6482 0.1081 192.45 / 55%);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 8px oklch(0.6482 0.1081 192.45 / 0%);
+  }
+}
+
+@keyframes tourne {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes indice {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 0.35;
   }
 }
 
@@ -180,11 +320,17 @@
   .reveal {
     opacity: 1;
     transform: none;
+    filter: none;
     transition: none;
   }
 
   .trace-logo {
     animation: none;
     stroke-dashoffset: 0;
+  }
+
+  .pastille-vivante,
+  .defile-lent {
+    animation: none;
   }
 }
