@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Check } from "lucide-react";
-import { ecouterFormule, FORMULES, type Formule } from "@/lib/formule";
+import { CHOIX_FORMULES, type CleFormule } from "@/lib/formule";
 import { cn } from "@/lib/utils";
 
 type Fields = {
@@ -10,29 +10,29 @@ type Fields = {
   email: string;
   telephone: string;
   secteur: string;
-  formule: Formule;
+  formule: CleFormule;
   message: string;
 };
 
-const EMPTY: Fields = {
+const VIDE: Fields = {
   nom: "",
   societe: "",
   email: "",
   telephone: "",
   secteur: "",
-  formule: "Je ne sais pas encore",
+  formule: "indecis",
   message: "",
 };
 
 const champ =
-  "w-full rounded-xl border border-nuit/15 bg-ivoire/60 px-4 py-3 text-[0.95rem] text-nuit transition-[border-color,box-shadow,background-color] duration-300 placeholder:text-ardoise/60 hover:border-nuit/30 focus:border-vague-profonde focus:bg-papier focus:outline-none focus:ring-4 focus:ring-vague/20 aria-[invalid=true]:border-destructive";
-const etiquette = "block text-sm font-semibold text-nuit";
+  "mt-2 w-full rounded-xl border-2 border-input bg-white px-4 py-3.5 text-[1.0625rem] text-encre transition-[border-color,box-shadow] duration-200 placeholder:text-ardoise/70 hover:border-marine/40 focus:border-turquoise-fonce focus:outline-none focus:ring-4 focus:ring-turquoise/25 aria-[invalid=true]:border-destructive";
+const etiquette = "block font-display text-[1.0625rem] font-medium text-marine";
 
-function validate(v: Fields) {
+function valider(v: Fields) {
   const e: Partial<Record<keyof Fields, string>> = {};
-  if (v.nom.trim().length < 2) e.nom = "Indiquez votre nom.";
+  if (v.nom.trim().length < 2) e.nom = "Indiquez votre nom et votre prénom.";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email.trim()))
-    e.email = "Indiquez une adresse email valide.";
+    e.email = "Indiquez une adresse email valide, par exemple nom@entreprise.fr.";
   if (v.telephone.trim() && !/^[+0-9 ().-]{6,}$/.test(v.telephone.trim()))
     e.telephone = "Indiquez un numéro de téléphone valide.";
   if (v.message.trim().length < 10) e.message = "Décrivez votre besoin en quelques mots.";
@@ -48,7 +48,7 @@ function Erreur({ id, children }: { id: string; children: string | undefined }) 
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
-          className="mt-1.5 text-xs font-medium text-destructive"
+          className="mt-2 font-bold text-destructive"
         >
           {children}
         </motion.p>
@@ -57,32 +57,39 @@ function Erreur({ id, children }: { id: string; children: string | undefined }) 
   );
 }
 
-const court = (f: Formule) =>
-  f === "Je ne sais pas encore" ? "Je ne sais pas encore" : f.split(" — ")[0];
+const court = (c: CleFormule) =>
+  c === "indecis" ? "Je ne sais pas encore" : CHOIX_FORMULES[c].split(" — ")[0];
 
-export function ContactForm() {
-  const [values, setValues] = useState<Fields>(EMPTY);
+export function ContactForm({
+  formuleInitiale = "indecis",
+  messageInitial = "",
+}: {
+  formuleInitiale?: CleFormule;
+  messageInitial?: string;
+}) {
+  const [values, setValues] = useState<Fields>({
+    ...VIDE,
+    formule: formuleInitiale,
+    message: messageInitial,
+  });
   const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>({});
   const [sent, setSent] = useState(false);
-  const [signal, setSignal] = useState(0);
   const form = useRef<HTMLFormElement>(null);
 
-  // Une formule choisie plus haut dans la page arrive ici pré-sélectionnée.
-  useEffect(
-    () =>
-      ecouterFormule((f) => {
-        setValues((v) => ({ ...v, formule: f }));
-        setSignal((s) => s + 1);
-      }),
-    [],
-  );
+  // L'adresse peut changer sans recharger la page (autre formule choisie).
+  useEffect(() => {
+    setValues((v) => ({ ...v, formule: formuleInitiale }));
+  }, [formuleInitiale]);
+  useEffect(() => {
+    if (messageInitial) setValues((v) => (v.message ? v : { ...v, message: messageInitial }));
+  }, [messageInitial]);
 
   const set = (k: Exclude<keyof Fields, "formule">) => (ev: { target: { value: string } }) =>
     setValues((v) => ({ ...v, [k]: ev.target.value }));
 
-  function onSubmit(ev: FormEvent) {
+  function envoyer(ev: FormEvent) {
     ev.preventDefault();
-    const e = validate(values);
+    const e = valider(values);
     setErrors(e);
     const premier = Object.keys(e)[0];
     if (premier) {
@@ -90,12 +97,15 @@ export function ContactForm() {
       return;
     }
     // Aucun backend : la demande est préparée pour un envoi ultérieur.
-    console.info("Demande de diagnostic VIRTUASSIST", values);
+    console.info("Demande de diagnostic VirtuAssist", {
+      ...values,
+      formule: CHOIX_FORMULES[values.formule],
+    });
     setSent(true);
   }
 
   return (
-    <div className="relative overflow-hidden rounded-[2rem] bg-papier text-nuit shadow-[0_50px_100px_-50px_oklch(0_0_0/70%)]">
+    <div className="relative overflow-hidden rounded-3xl bg-white ring-1 ring-ligne shadow-[0_40px_80px_-50px_rgb(15_42_61/50%)]">
       <AnimatePresence mode="wait" initial={false}>
         {sent ? (
           <motion.div
@@ -105,28 +115,28 @@ export function ContactForm() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="flex min-h-[32rem] flex-col items-start justify-center gap-5 p-8 sm:p-12"
+            className="flex min-h-[30rem] flex-col items-start justify-center gap-5 p-8 sm:p-12"
           >
             <motion.span
-              initial={{ scale: 0.4, rotate: -20 }}
-              animate={{ scale: 1, rotate: 0 }}
+              initial={{ scale: 0.4 }}
+              animate={{ scale: 1 }}
               transition={{ type: "spring", stiffness: 260, damping: 16 }}
-              className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-vague text-nuit-deep"
+              className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-turquoise-fonce text-white"
             >
-              <Check className="h-6 w-6" strokeWidth={2.5} />
+              <Check className="h-8 w-8" strokeWidth={3} />
             </motion.span>
-            <h3 className="font-display text-4xl text-nuit">Demande enregistrée.</h3>
-            <p className="max-w-md text-ardoise">
-              Merci {values.nom.split(" ")[0]}. Nous revenons vers vous sous 24 h ouvrées pour fixer
+            <h2 className="font-display text-3xl font-semibold">Demande enregistrée.</h2>
+            <p className="max-w-md text-lg text-ardoise">
+              Merci {values.nom.split(" ")[0]}. Nous vous rappelons sous 24 h ouvrées pour fixer
               votre diagnostic administratif gratuit.
             </p>
             <button
               type="button"
               onClick={() => {
-                setValues(EMPTY);
+                setValues(VIDE);
                 setSent(false);
               }}
-              className="text-sm font-semibold text-vague-profonde underline decoration-2 underline-offset-4"
+              className="lien"
             >
               Envoyer une autre demande
             </button>
@@ -135,27 +145,29 @@ export function ContactForm() {
           <motion.form
             key="form"
             ref={form}
-            onSubmit={onSubmit}
+            onSubmit={envoyer}
             noValidate
             exit={{ opacity: 0, y: -12 }}
             className="p-6 sm:p-10"
           >
-            <div className="flex items-center justify-between border-b border-nuit/10 pb-5">
-              <p className="font-display text-2xl">Votre demande</p>
-              <p className="font-mono text-[0.7rem] text-ardoise">Réponse sous 24 h ouvrées</p>
-            </div>
+            <h2 className="font-display text-2xl font-semibold">Votre demande de diagnostic</h2>
+            <p className="mt-2 text-ardoise">
+              Les champs marqués d'un astérisque <span aria-hidden="true">(*)</span> sont
+              obligatoires.
+            </p>
 
-            <div className="mt-7 grid gap-5 sm:grid-cols-2">
+            <div className="mt-8 grid gap-6 sm:grid-cols-2">
               <div>
                 <label className={etiquette} htmlFor="nom">
-                  Nom et prénom
+                  Nom et prénom <span aria-hidden="true">*</span>
                 </label>
                 <input
                   id="nom"
                   name="nom"
-                  className={`${champ} mt-2`}
+                  className={champ}
                   value={values.nom}
                   onChange={set("nom")}
+                  required
                   aria-invalid={!!errors.nom}
                   aria-describedby={errors.nom ? "err-nom" : undefined}
                   autoComplete="name"
@@ -165,12 +177,12 @@ export function ContactForm() {
 
               <div>
                 <label className={etiquette} htmlFor="societe">
-                  Société <span className="font-normal text-ardoise">(facultatif)</span>
+                  Société
                 </label>
                 <input
                   id="societe"
                   name="societe"
-                  className={`${champ} mt-2`}
+                  className={champ}
                   value={values.societe}
                   onChange={set("societe")}
                   autoComplete="organization"
@@ -179,16 +191,17 @@ export function ContactForm() {
 
               <div>
                 <label className={etiquette} htmlFor="email">
-                  Email
+                  Email <span aria-hidden="true">*</span>
                 </label>
                 <input
                   id="email"
                   name="email"
                   type="email"
                   inputMode="email"
-                  className={`${champ} mt-2`}
+                  className={champ}
                   value={values.email}
                   onChange={set("email")}
+                  required
                   aria-invalid={!!errors.email}
                   aria-describedby={errors.email ? "err-email" : undefined}
                   autoComplete="email"
@@ -198,31 +211,34 @@ export function ContactForm() {
 
               <div>
                 <label className={etiquette} htmlFor="telephone">
-                  Téléphone <span className="font-normal text-ardoise">(facultatif)</span>
+                  Téléphone
                 </label>
                 <input
                   id="telephone"
                   name="telephone"
                   type="tel"
                   inputMode="tel"
-                  className={`${champ} mt-2`}
+                  className={champ}
                   value={values.telephone}
                   onChange={set("telephone")}
                   aria-invalid={!!errors.telephone}
-                  aria-describedby={errors.telephone ? "err-tel" : undefined}
+                  aria-describedby={errors.telephone ? "err-tel" : "aide-tel"}
                   autoComplete="tel"
                 />
+                <p id="aide-tel" className="mt-2 text-[0.95rem] text-ardoise">
+                  Pour que nous puissions vous rappeler.
+                </p>
                 <Erreur id="err-tel">{errors.telephone}</Erreur>
               </div>
 
               <div className="sm:col-span-2">
                 <label className={etiquette} htmlFor="secteur">
-                  Secteur d'activité <span className="font-normal text-ardoise">(facultatif)</span>
+                  Secteur d'activité
                 </label>
                 <input
                   id="secteur"
                   name="secteur"
-                  className={`${champ} mt-2`}
+                  className={champ}
                   value={values.secteur}
                   onChange={set("secteur")}
                   placeholder="Bâtiment, cabinet, immobilier…"
@@ -231,56 +247,59 @@ export function ContactForm() {
 
               <fieldset className="sm:col-span-2">
                 <legend className={etiquette}>Formule envisagée</legend>
-                <motion.div
-                  key={signal}
-                  initial={signal ? { scale: 0.985 } : false}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
-                  className="mt-3 flex flex-wrap gap-2"
-                >
-                  {FORMULES.map((f) => {
-                    const on = values.formule === f;
+                <div className="mt-3 flex flex-wrap gap-2.5">
+                  {(Object.keys(CHOIX_FORMULES) as CleFormule[]).map((c) => {
+                    const on = values.formule === c;
                     return (
                       <label
-                        key={f}
+                        key={c}
                         className={cn(
-                          "relative cursor-pointer rounded-full px-4 py-2 text-sm transition-colors duration-300 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-vague/30",
+                          "inline-flex min-h-12 cursor-pointer items-center gap-2 rounded-xl px-4 py-2.5 font-bold transition-colors duration-200 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-turquoise/30",
                           on
-                            ? "bg-nuit text-on-nuit"
-                            : "bg-ivoire text-nuit ring-1 ring-inset ring-nuit/15 hover:ring-nuit/40",
+                            ? "bg-marine text-white"
+                            : "bg-gris text-marine ring-2 ring-inset ring-transparent hover:ring-marine/25",
                         )}
-                        title={f}
                       >
                         <input
                           type="radio"
                           name="formule"
-                          value={f}
+                          value={c}
                           checked={on}
-                          onChange={() => setValues((v) => ({ ...v, formule: f }))}
+                          onChange={() => setValues((v) => ({ ...v, formule: c }))}
                           className="sr-only"
                         />
-                        {court(f)}
+                        {on && (
+                          <Check
+                            className="h-4 w-4 text-turquoise"
+                            strokeWidth={3}
+                            aria-hidden="true"
+                          />
+                        )}
+                        {court(c)}
                       </label>
                     );
                   })}
-                </motion.div>
-                {values.formule !== court(values.formule) && (
-                  <p className="mt-2 font-mono text-[0.7rem] text-ardoise">{values.formule}</p>
+                </div>
+                {values.formule !== "indecis" && (
+                  <p className="mt-2 text-[0.95rem] text-ardoise">
+                    {CHOIX_FORMULES[values.formule]}
+                  </p>
                 )}
               </fieldset>
 
               <div className="sm:col-span-2">
                 <label className={etiquette} htmlFor="message">
-                  Votre besoin
+                  Votre besoin <span aria-hidden="true">*</span>
                 </label>
                 <textarea
                   id="message"
                   name="message"
-                  rows={4}
-                  className={`${champ} mt-2 resize-y`}
+                  rows={5}
+                  className={cn(champ, "resize-y")}
                   value={values.message}
                   onChange={set("message")}
-                  placeholder="Ex. : relances de factures, devis à mettre en forme, courriers…"
+                  required
+                  placeholder="Par exemple : relances de factures, devis à mettre en forme, courriers…"
                   aria-invalid={!!errors.message}
                   aria-describedby={errors.message ? "err-message" : undefined}
                 />
@@ -290,15 +309,15 @@ export function ContactForm() {
 
             <button
               type="submit"
-              className="group mt-8 inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-xl bg-vague-profonde px-6 py-4 text-sm font-semibold text-white transition-colors duration-300 hover:bg-nuit focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-vague/40"
+              className="group mt-8 inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-xl bg-turquoise-fonce px-6 py-4 font-display text-lg font-medium text-white transition-colors duration-300 hover:bg-marine"
             >
-              Demander mon diagnostic gratuit
+              Envoyer ma demande
               <ArrowRight
-                className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1"
+                className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
                 aria-hidden="true"
               />
             </button>
-            <p className="mt-3 text-center text-xs text-ardoise">
+            <p className="mt-4 text-center text-ardoise">
               Réponse sous 24 h ouvrées. Aucune obligation d'engagement.
             </p>
           </motion.form>

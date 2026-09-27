@@ -5,14 +5,14 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * VIRTUASSIST design system.
- * Palette: bleu-nuit #0F2A3D, bleu-clair #2C86AF, vague #14A3A0,
- * vague-profonde #0E7C79, ivoire #F7F5F0, ardoise #445663.
+ * VirtuAssist — système graphique.
  *
- * Trois voix typographiques :
- *  - Instrument Serif : la voix de la marque (logotype, titres).
- *  - Manrope : le texte courant.
- *  - IBM Plex Mono : les pièces administratives (numéros, délais, tarifs).
+ * Lisibilité d'abord : un public de 30 à 60 ans, des dirigeants pressés qui
+ * lisent sur ordinateur comme sur téléphone.
+ *  - Titres : Lexend, conçue pour faciliter la lecture.
+ *  - Texte : Atkinson Hyperlegible Next, dessinée par le Braille Institute
+ *    pour être lisible par tous, quelle que soit l'acuité visuelle.
+ *  - Texte courant à 18 px, contrastes AA renforcés (≥ 7:1 pour le texte).
  */
 
 @theme inline {
@@ -23,9 +23,8 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
-  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-sans: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Lexend", ui-sans-serif, system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -46,82 +45,67 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
-  --color-nuit: var(--nuit);
-  --color-nuit-deep: var(--nuit-deep);
-  --color-bleu-clair: var(--bleu-clair);
-  --color-vague: var(--vague);
-  --color-vague-profonde: var(--vague-profonde);
-  --color-vague-clair: var(--vague-clair);
-  --color-ivoire: var(--ivoire);
-  --color-ivoire-2: var(--ivoire-2);
-  --color-papier: var(--papier);
+
+  /* Palette de marque */
+  --color-marine: var(--marine);
+  --color-marine-profond: var(--marine-profond);
+  --color-turquoise: var(--turquoise);
+  --color-turquoise-fonce: var(--turquoise-fonce);
+  --color-turquoise-pale: var(--turquoise-pale);
+  --color-bleu: var(--bleu);
+  --color-encre: var(--encre);
   --color-ardoise: var(--ardoise);
-  --color-on-nuit: var(--on-nuit);
-  --color-on-nuit-muted: var(--on-nuit-muted);
+  --color-gris: var(--gris);
+  --color-ligne: var(--ligne);
+  --color-sable: var(--sable);
+  --color-sur-marine: var(--sur-marine);
+  --color-sur-marine-doux: var(--sur-marine-doux);
 
   --ease-sortie: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-ressort: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 :root {
-  --radius: 0.5rem;
+  --radius: 0.75rem;
 
-  --nuit: oklch(0.2742 0.0482 242.12);
-  --nuit-deep: oklch(0.2429 0.0436 243.37);
-  --bleu-clair: oklch(0.5859 0.1035 232.47);
-  --vague: oklch(0.6482 0.1081 192.45);
-  --vague-profonde: oklch(0.5311 0.0884 191.78);
-  --vague-clair: oklch(0.935 0.035 195);
-  --ivoire: oklch(0.9703 0.007 88.64);
-  --ivoire-2: oklch(0.945 0.01 88);
-  --papier: oklch(0.995 0.002 90);
-  --ardoise: oklch(0.4431 0.0309 239.77);
-  --on-nuit: oklch(0.97 0.007 88.64);
-  --on-nuit-muted: oklch(0.82 0.018 230);
+  --marine: #0f2a3d;
+  --marine-profond: #0a1e2c;
+  --turquoise: #14a3a0;
+  --turquoise-fonce: #0b6f6c;
+  --turquoise-pale: #e6f4f3;
+  --bleu: #2c86af;
+  --encre: #13283a;
+  --ardoise: #45576a;
+  --gris: #f3f6f8;
+  --ligne: #d9e1e7;
+  --sable: #f7f2ea;
+  --sur-marine: #ffffff;
+  --sur-marine-doux: #c3d2de;
 
-  --background: var(--ivoire);
-  --foreground: var(--nuit);
-  --card: oklch(1 0 0);
-  --card-foreground: var(--nuit);
-  --popover: oklch(1 0 0);
-  --popover-foreground: var(--nuit);
-  --primary: var(--vague-profonde);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.94 0.008 88);
-  --secondary-foreground: var(--nuit);
-  --muted: oklch(0.94 0.008 88);
+  --background: #ffffff;
+  --foreground: var(--encre);
+  --card: #ffffff;
+  --card-foreground: var(--encre);
+  --popover: #ffffff;
+  --popover-foreground: var(--encre);
+  --primary: var(--turquoise-fonce);
+  --primary-foreground: #ffffff;
+  --secondary: var(--gris);
+  --secondary-foreground: var(--encre);
+  --muted: var(--gris);
   --muted-foreground: var(--ardoise);
-  --accent: oklch(0.93 0.02 200);
-  --accent-foreground: var(--nuit);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.89 0.01 230);
-  --input: oklch(0.86 0.012 230);
-  --ring: var(--vague-profonde);
+  --accent: var(--turquoise-pale);
+  --accent-foreground: var(--encre);
+  --destructive: #b42318;
+  --destructive-foreground: #ffffff;
+  --border: var(--ligne);
+  --input: #b9c6d0;
+  --ring: var(--turquoise);
 
-  --gradient-marque: linear-gradient(
-    90deg,
-    oklch(0.2429 0.0436 243.37) 0%,
-    oklch(0.4084 0.0752 238.86) 55%,
-    oklch(0.5859 0.1035 232.47) 100%
-  );
-  --gradient-marque-sombre: linear-gradient(
-    90deg,
-    oklch(1 0 0) 0%,
-    oklch(0.8428 0.0653 214.68) 55%,
-    oklch(0.6482 0.1081 192.45) 100%
-  );
-  --shadow-carte:
-    0 1px 2px oklch(0.2742 0.0482 242.12 / 6%), 0 12px 28px -18px oklch(0.2742 0.0482 242.12 / 35%);
-  --shadow-carte-forte:
-    0 2px 4px oklch(0.2742 0.0482 242.12 / 8%), 0 24px 48px -24px oklch(0.2742 0.0482 242.12 / 45%);
-  /* Une feuille posée : contact net, puis ombre longue et douce. */
-  --shadow-feuille:
-    0 1px 1px oklch(0.2742 0.0482 242.12 / 8%), 0 6px 14px -6px oklch(0.2742 0.0482 242.12 / 18%),
-    0 30px 60px -30px oklch(0.2742 0.0482 242.12 / 40%);
+  --ombre-douce: 0 1px 2px rgb(15 42 61 / 6%), 0 8px 24px -12px rgb(15 42 61 / 18%);
+  --ombre-forte: 0 2px 4px rgb(15 42 61 / 6%), 0 30px 60px -30px rgb(15 42 61 / 35%);
 
   /* Hauteur réservée à la barre de navigation basse, sur mobile. */
-  --bottom-nav: 5.75rem;
+  --bottom-nav: 5.5rem;
 }
 
 @layer base {
@@ -132,26 +116,50 @@
   html {
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
+    overflow-x: clip;
   }
 
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     /* clip et non hidden : hidden casserait position: sticky. */
     overflow-x: clip;
   }
 
-  ::selection {
-    background-color: var(--vague);
-    color: oklch(1 0 0);
+  @media (min-width: 640px) {
+    body {
+      font-size: 1.125rem;
+    }
   }
 
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-marine);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--turquoise);
+    color: #fff;
+  }
+
+  /* Focus clavier : épais et toujours visible. */
   :focus-visible {
-    outline: 2px solid var(--vague);
+    outline: 3px solid var(--turquoise);
     outline-offset: 3px;
+    border-radius: 6px;
   }
 
   /* Lenis — défilement adouci, souris uniquement */
@@ -167,119 +175,75 @@
   .lenis [data-lenis-prevent] {
     overscroll-behavior: contain;
   }
+}
 
-  .lenis.lenis-smooth iframe {
-    pointer-events: none;
+@utility conteneur {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  @media (min-width: 640px) {
+    padding-inline: 2rem;
   }
 }
 
 @utility font-display {
   font-family: var(--font-display);
-  font-weight: 400;
 }
 
-@utility texte-marque {
-  background-image: var(--gradient-marque);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-@utility texte-marque-clair {
-  background-image: var(--gradient-marque-sombre);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-/* Étiquette de section : la voix « document » de la marque. */
-@utility label-section {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
+/* Petit intitulé au-dessus des titres : lisible, pas en capitales serrées. */
+@utility surtitre {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
   font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  color: var(--turquoise-fonce);
+
+  &::before {
+    content: "";
+    width: 1.75rem;
+    height: 3px;
+    border-radius: 999px;
+    background: var(--turquoise);
+  }
+}
+
+@utility lien {
+  color: var(--turquoise-fonce);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  text-decoration-color: color-mix(in srgb, var(--turquoise) 55%, transparent);
+  transition: text-decoration-color 200ms;
+
+  &:hover {
+    text-decoration-color: currentColor;
+  }
 }
 
 @utility carte {
-  background-color: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-carte);
-}
-
-@utility feuille {
-  background-color: var(--papier);
-  box-shadow: var(--shadow-feuille);
-}
-
-/* Papier réglé, très discret : le registre, pas le décor. */
-@utility regle {
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0 39px,
-    oklch(0.2742 0.0482 242.12 / 5.5%) 39px 40px
-  );
-}
-
-@utility regle-sombre {
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0 39px,
-    oklch(0.97 0.007 88.64 / 4.5%) 39px 40px
-  );
-}
-
-/* Grain photographique pour les aplats sombres. */
-@utility grain {
-  position: relative;
-  isolation: isolate;
-
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0.07;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  }
-}
-
-/* Texte détouré, pour les très grands chiffres de fond. */
-@utility contour {
-  color: transparent;
-  -webkit-text-stroke: 1px currentColor;
-}
-
-@utility reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  filter: blur(6px);
-  transition:
-    opacity 900ms var(--ease-sortie),
-    transform 900ms var(--ease-sortie),
-    filter 900ms var(--ease-sortie);
-
-  &[data-visible="true"] {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
+  background-color: #fff;
+  border: 1px solid var(--ligne);
+  border-radius: 1.25rem;
+  box-shadow: var(--ombre-douce);
 }
 
 @utility trace-logo {
-  stroke-dasharray: 340;
-  stroke-dashoffset: 340;
-  animation: trace 1600ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: trace 900ms var(--ease-sortie) 150ms forwards;
+}
+
+@utility flotte {
+  animation: flotte 6s ease-in-out infinite;
 }
 
 @utility pastille-vivante {
   animation: pastille 2.4s ease-out infinite;
-}
-
-@utility defile-lent {
-  animation: tourne 28s linear infinite;
 }
 
 @keyframes trace {
@@ -288,49 +252,34 @@
   }
 }
 
-@keyframes pastille {
-  0% {
-    box-shadow: 0 0 0 0 oklch(0.6482 0.1081 192.45 / 55%);
-  }
-  70%,
-  100% {
-    box-shadow: 0 0 0 8px oklch(0.6482 0.1081 192.45 / 0%);
-  }
-}
-
-@keyframes tourne {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes indice {
+@keyframes flotte {
   0%,
   100% {
     transform: translateY(0);
-    opacity: 1;
   }
   50% {
-    transform: translateY(8px);
-    opacity: 0.35;
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pastille {
+  0% {
+    box-shadow: 0 0 0 0 rgb(20 163 160 / 55%);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 8px rgb(20 163 160 / 0%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
-    filter: none;
-    transition: none;
-  }
-
   .trace-logo {
     animation: none;
     stroke-dashoffset: 0;
   }
 
-  .pastille-vivante,
-  .defile-lent {
+  .flotte,
+  .pastille-vivante {
     animation: none;
   }
 }

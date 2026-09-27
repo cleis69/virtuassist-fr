@@ -31,7 +31,7 @@ export function TextReveal({
   as: Tag = "h2",
   className,
   delay = 0,
-  stagger = 0.045,
+  stagger = 0.035,
   onMount = false,
 }: Props) {
   const reduce = useReducedMotion();
@@ -68,11 +68,10 @@ export function TextReveal({
                       <motion.span
                         className={cn("inline-block will-change-transform", part.className)}
                         variants={{
-                          hidden: { y: "110%", rotate: 4 },
+                          hidden: { y: "105%" },
                           shown: {
                             y: "0%",
-                            rotate: 0,
-                            transition: { duration: 0.95, ease: EASE, delay: delay + i * stagger },
+                            transition: { duration: 0.8, ease: EASE, delay: delay + i * stagger },
                           },
                         }}
                       >

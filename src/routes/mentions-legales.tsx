@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { SiteHeader } from "@/components/SiteHeader";
-import { SiteFooter } from "@/components/SiteFooter";
-import { Bars } from "@/components/Bars";
+import { Gabarit } from "@/components/Gabarit";
+import { FilAriane } from "@/components/ui-va/Blocs";
 
 const TITRE = "Mentions légales — VIRTUASSIST";
 const DESCRIPTION =
@@ -25,20 +24,19 @@ export const Route = createFileRoute("/mentions-legales")({
 function Bloc({ titre, children }: { titre: string; children: React.ReactNode }) {
   return (
     <section className="border-t border-border py-8">
-      <h2 className="font-display text-2xl text-nuit">{titre}</h2>
-      <div className="mt-3 space-y-3 text-sm leading-relaxed text-ardoise">{children}</div>
+      <h2 className="font-display text-2xl font-semibold">{titre}</h2>
+      <div className="mt-3 space-y-3 text-lg leading-relaxed text-ardoise">{children}</div>
     </section>
   );
 }
 
 function MentionsLegales() {
   return (
-    <div className="min-h-screen bg-ivoire">
-      <SiteHeader />
-      <main className="mx-auto max-w-3xl px-5 pt-32 pb-24 sm:pt-40 sm:pb-32">
-        <Bars className="mb-8" />
-        <h1 className="font-display text-4xl text-nuit sm:text-5xl">Mentions légales</h1>
-        <p className="mt-4 text-sm text-ardoise">
+    <Gabarit>
+      <div className="conteneur max-w-4xl! py-12 sm:py-16">
+        <FilAriane etapes={[{ label: "Mentions légales" }]} />
+        <h1 className="mt-8 font-display text-4xl font-semibold tracking-[-0.02em] sm:text-5xl">Mentions légales</h1>
+        <p className="mt-4 text-lg text-ardoise">
           Les informations marquées entre crochets doivent être complétées avec les données
           officielles de la société.
         </p>
@@ -98,13 +96,12 @@ function MentionsLegales() {
           </p>
         </Bloc>
 
-        <p className="mt-10 text-sm">
-          <Link className="font-semibold text-vague-profonde underline underline-offset-4" to="/">
+        <p className="mt-10">
+          <Link className="lien" to="/">
             Retour à l'accueil
           </Link>
         </p>
-      </main>
-      <SiteFooter />
-    </div>
+      </div>
+    </Gabarit>
   );
 }

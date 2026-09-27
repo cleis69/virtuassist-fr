@@ -1,27 +1,35 @@
 /**
- * Choisir une formule depuis les cartes d'offre pré-remplit le formulaire de
- * diagnostic : le visiteur n'a pas à répéter ce qu'il vient de dire.
+ * Formules proposées dans le formulaire de diagnostic.
+ *
+ * Choisir une formule sur la page Tarifs ouvre le formulaire avec cette
+ * formule déjà cochée (paramètre ?formule= dans l'adresse) : le visiteur
+ * n'a pas à répéter ce qu'il vient de dire.
  */
 
-export const FORMULES = [
-  "Je ne sais pas encore",
-  "Essentiel — 250 € HT/mois",
-  "Sérénité — 460 € HT/mois",
-  "Premium — 840 € HT/mois",
-  "Entreprise — sur mesure",
-  "Prestation ponctuelle — 30 € HT/h",
-] as const;
+export const CHOIX_FORMULES = {
+  indecis: "Je ne sais pas encore",
+  essentiel: "Essentiel — 250 € HT/mois",
+  serenite: "Sérénité — 460 € HT/mois",
+  premium: "Premium — 840 € HT/mois",
+  entreprise: "Entreprise — sur mesure",
+  ponctuelle: "Prestation ponctuelle — 30 € HT/h",
+} as const;
 
-export type Formule = (typeof FORMULES)[number];
+export type CleFormule = keyof typeof CHOIX_FORMULES;
 
-const EVENEMENT = "va:formule";
+export const estCleFormule = (v: unknown): v is CleFormule =>
+  typeof v === "string" && v in CHOIX_FORMULES;
 
-export function choisirFormule(f: Formule) {
-  window.dispatchEvent(new CustomEvent<Formule>(EVENEMENT, { detail: f }));
-}
+/** Messages pré-remplis selon d'où vient le visiteur. */
+export const OBJETS = {
+  fondateurs: "Je souhaite réserver une place parmi les 10 entreprises fondatrices.",
+  facturation: "Je souhaite déléguer la gestion commerciale et la facturation.",
+  administration: "Je souhaite déléguer l'administration quotidienne.",
+  donnees: "Je souhaite déléguer la saisie et le suivi de mes données.",
+  digital: "Je souhaite un accompagnement digital (site internet).",
+  formation: "Je souhaite une formation.",
+} as const;
 
-export function ecouterFormule(cb: (f: Formule) => void) {
-  const handler = (e: Event) => cb((e as CustomEvent<Formule>).detail);
-  window.addEventListener(EVENEMENT, handler);
-  return () => window.removeEventListener(EVENEMENT, handler);
-}
+export type CleObjet = keyof typeof OBJETS;
+
+export const estCleObjet = (v: unknown): v is CleObjet => typeof v === "string" && v in OBJETS;

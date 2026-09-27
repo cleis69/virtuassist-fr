@@ -10,13 +10,17 @@ import {
 } from "motion/react";
 import { Check } from "lucide-react";
 import { useEffect, useRef, type ReactNode } from "react";
-import { Bars } from "@/components/Bars";
-import { Cta } from "@/components/SectionLink";
-import { Rise, TextReveal } from "@/components/motion/TextReveal";
-import { useFinePointer, useMedia } from "@/hooks/use-media";
+import { EnTete, ListeCoches } from "@/components/ui-va/Blocs";
+import { Bouton } from "@/components/ui-va/Bouton";
+import { useFinePointer } from "@/hooks/use-media";
 import { cn } from "@/lib/utils";
 
-/* ───────────────────────── outils d'interpolation ───────────────────────── */
+/*
+ * « Votre bureau, rangé » : sept pièces éparses (facture, devis, relance,
+ * courrier, suivi, dossier client, post-it) se rangent en pile à mesure que
+ * la section traverse l'écran. Rien n'est épinglé : on continue de défiler
+ * normalement, l'animation suit.
+ */
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -65,148 +69,42 @@ const docWindow = (i: number) => {
 };
 const DERNIER_RANGE = docWindow(N - 1)[1];
 
-/* ───────────────────────── section ───────────────────────── */
-
-export function Hero() {
-  const section = useRef<HTMLElement>(null);
-  const piste = useRef<HTMLDivElement>(null);
-  const desktop = useMedia("(min-width: 1024px)");
+export function BureauRange() {
+  const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
-
-  // Sur grand écran, toute la section est épinglée. Sur mobile, le titre
-  // défile normalement et seule la scène a sa propre piste.
-  const { scrollYProgress: pSection } = useScroll({
-    target: section,
-    offset: ["start start", "end end"],
-  });
-  const { scrollYProgress: pPiste } = useScroll({
-    target: piste,
-    offset: ["start start", "end end"],
-  });
-  // -1 tant que le client ne sait pas encore sur quel écran il tourne :
-  // la scène reste éparse, sans éclair de l'état rangé.
-  const mode = useMotionValue(-1);
-  useEffect(() => {
-    mode.set(reduce ? 2 : desktop ? 1 : 0);
-  }, [desktop, reduce, mode]);
-  const progress = useTransform([pSection, pPiste, mode], ([a = 0, b = 0, m = -1]: number[]) =>
-    m === -1 ? 0 : m === 2 ? 1 : m === 1 ? a : b,
-  );
-
-  const indice = useTransform(progress, [0, 0.08], [1, 0]);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.9", "center 0.4"] });
+  const progress = useTransform(scrollYProgress, (p) => (reduce ? 1 : p));
 
   return (
-    <section
-      id="top"
-      ref={section}
-      className="relative bg-ivoire lg:h-[240vh] motion-reduce:h-auto!"
-      aria-labelledby="titre-accueil"
-    >
-      <div className="relative lg:sticky lg:top-0 lg:h-svh lg:overflow-hidden motion-reduce:static! motion-reduce:h-auto!">
-        {/* Papier réglé et grand motif de marque en filigrane */}
-        <div aria-hidden="true" className="regle pointer-events-none absolute inset-0 opacity-70" />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-40 bottom-16 hidden flex-col items-end gap-8 opacity-[0.035] lg:flex"
-        >
-          <span className="block h-10 w-[46rem] rounded-full bg-nuit" />
-          <span className="block h-10 w-[32rem] rounded-full bg-nuit" />
-          <span className="block h-10 w-[18rem] rounded-full bg-vague" />
-        </div>
-
-        <div className="relative mx-auto grid max-w-[1320px] px-5 sm:px-8 lg:h-full lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:gap-6 motion-reduce:lg:py-40">
-          <HeroCopy />
-
-          <div
-            ref={piste}
-            className="relative h-[190vh] overflow-x-clip lg:h-full lg:overflow-visible motion-reduce:h-auto!"
-          >
-            <div className="sticky top-0 flex h-svh items-center justify-center pt-20 pb-28 lg:static lg:h-full lg:py-0 motion-reduce:static! motion-reduce:h-[34rem]!">
-              <Scene progress={progress} />
-            </div>
+    <section ref={ref} className="overflow-hidden bg-white py-20 sm:py-28">
+      <div className="conteneur grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+        <div>
+          <EnTete
+            surtitre="Concrètement"
+            titre="Vous nous transmettez vos pièces. Nous les traitons."
+            intro="Par votre espace VirtuAssist, par email ou via l'outil que vous utilisez déjà : drive partagé, logiciel de facturation. Nous nous adaptons à votre organisation plutôt que de vous en imposer une."
+          />
+          <ListeCoches
+            className="mt-8"
+            items={[
+              "Traitement dans le délai de votre formule : 24 h, 24 à 48 h ou 48 h ouvrées",
+              "Dès 90 % du forfait consommé, nous vous prévenons",
+              "Rien n'est facturé sans votre accord",
+            ]}
+          />
+          <div className="mt-9">
+            <Bouton to="/fonctionnement" variante="secondaire">
+              Voir comment ça marche
+            </Bouton>
           </div>
         </div>
-
-        <motion.div
-          aria-hidden="true"
-          style={{ opacity: indice }}
-          className="pointer-events-none absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 lg:flex"
-        >
-          <span className="label-section text-ardoise">Faites défiler, on range</span>
-          <span className="block h-10 w-px overflow-hidden bg-nuit/15">
-            <span className="block h-4 w-px bg-vague-profonde [animation:indice_1.8s_ease-in-out_infinite]" />
-          </span>
-        </motion.div>
+        <div className="relative h-[27rem] sm:h-[32rem] lg:h-[36rem]">
+          <Scene progress={progress} />
+        </div>
       </div>
     </section>
   );
 }
-
-function HeroCopy() {
-  return (
-    <div className="relative z-10 pt-32 pb-4 sm:pt-36 lg:py-0">
-      <Rise onMount delay={0.05} y={14}>
-        <div className="flex items-center gap-4">
-          <Bars />
-          <span className="label-section text-vague-profonde">
-            Assistance administrative externalisée
-          </span>
-        </div>
-      </Rise>
-
-      <TextReveal
-        as="h1"
-        onMount
-        delay={0.18}
-        className="mt-7 max-w-[15ch] font-display text-[clamp(2.75rem,5vw,5rem)] leading-[0.98] tracking-[-0.02em] text-nuit"
-        segments={[
-          { text: "Vous développez votre entreprise.", br: true },
-          { text: "Nous gérons votre administratif.", className: "texte-marque italic" },
-        ]}
-      />
-      <span id="titre-accueil" className="sr-only">
-        Vous développez votre entreprise. Nous gérons votre administratif.
-      </span>
-
-      <Rise onMount delay={0.75}>
-        <p className="mt-7 max-w-md text-base leading-relaxed text-ardoise sm:text-lg">
-          Pour les TPE, PME, indépendants et professionnels, en France métropolitaine et à La
-          Réunion.
-        </p>
-      </Rise>
-
-      <Rise onMount delay={0.9}>
-        <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <Cta to="contact" pleineLargeur>
-            Demander mon diagnostic gratuit
-          </Cta>
-          <Cta to="offres" variante="contour" fleche={false} pleineLargeur>
-            Voir les offres
-          </Cta>
-        </div>
-      </Rise>
-
-      <Rise onMount delay={1.05}>
-        <ul className="mt-9 flex flex-wrap gap-x-5 gap-y-2.5 font-mono text-[0.78rem] text-ardoise">
-          {["Disponible 6 jours sur 7", "Sans engagement de durée", "Interlocuteur dédié"].map(
-            (x) => (
-              <li key={x} className="inline-flex items-center gap-2">
-                <Check
-                  className="h-3.5 w-3.5 text-vague-profonde"
-                  strokeWidth={2.5}
-                  aria-hidden="true"
-                />
-                {x}
-              </li>
-            ),
-          )}
-        </ul>
-      </Rise>
-    </div>
-  );
-}
-
-/* ───────────────────────── scène 3D ───────────────────────── */
 
 function Scene({ progress }: { progress: MotionValue<number> }) {
   const fine = useFinePointer();
@@ -252,12 +150,12 @@ function Scene({ progress }: { progress: MotionValue<number> }) {
       className="relative flex h-full w-full max-w-[40rem] flex-col items-center justify-center"
     >
       {/* Compteur : la preuve chiffrée que le bureau se vide */}
-      <div className="absolute inset-x-0 top-0 z-20 flex items-end justify-between gap-6 lg:top-[12%]">
+      <div className="absolute inset-x-0 top-0 z-20 flex items-end justify-between gap-6">
         <Compteur label="À traiter" valeur={aTraiter} />
-        <div className="mb-3 h-px flex-1 bg-nuit/12">
+        <div className="mb-3 h-px flex-1 bg-marine/12">
           <motion.span
             style={{ scaleX: jauge }}
-            className="block h-px origin-left bg-vague-profonde"
+            className="block h-px origin-left bg-turquoise-fonce"
           />
         </div>
         <Compteur label="Traités" valeur={traites} alignement="droite" accent />
@@ -277,10 +175,12 @@ function Scene({ progress }: { progress: MotionValue<number> }) {
 
       <motion.div
         style={{ opacity: legende, y: legendeY }}
-        className="absolute inset-x-0 bottom-0 z-20 flex items-center justify-center gap-4 lg:bottom-[10%]"
+        className="absolute inset-x-0 bottom-0 z-20 flex items-center justify-center gap-3"
       >
-        <Bars />
-        <p className="font-display text-2xl text-nuit sm:text-[1.75rem]">
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-turquoise text-white">
+          <Check className="h-5 w-5" strokeWidth={3} />
+        </span>
+        <p className="font-display text-xl font-medium text-marine sm:text-2xl">
           Votre administratif, notre priorité.
         </p>
       </motion.div>
@@ -301,11 +201,11 @@ function Compteur({
 }) {
   return (
     <div className={cn("flex flex-col", alignement === "droite" && "items-end")}>
-      <span className="label-section text-ardoise">{label}</span>
+      <span className="text-[0.95rem] font-bold text-ardoise">{label}</span>
       <motion.span
         className={cn(
-          "font-display text-5xl leading-none tabular-nums sm:text-6xl",
-          accent ? "text-vague-profonde" : "text-nuit",
+          "font-display text-5xl font-semibold leading-none tabular-nums sm:text-6xl",
+          accent ? "text-turquoise-fonce" : "text-marine",
         )}
       >
         {valeur}
@@ -350,8 +250,10 @@ function Feuille({
     >
       <div
         className={cn(
-          "@container flex h-full w-full flex-col overflow-hidden rounded-[4px] p-[8%] font-mono text-nuit [backface-visibility:hidden]",
-          postit ? "bg-vague-clair shadow-[0_18px_30px_-18px_oklch(0.27_0.05_242/45%)]" : "feuille",
+          "@container flex h-full w-full flex-col overflow-hidden rounded-[4px] p-[8%] font-mono text-marine [backface-visibility:hidden]",
+          postit
+            ? "bg-turquoise-pale shadow-[0_18px_30px_-18px_rgb(15_42_61/45%)]"
+            : "shadow-[0_1px_1px_rgb(15_42_61/8%),0_6px_14px_-6px_rgb(15_42_61/18%),0_30px_60px_-30px_rgb(15_42_61/40%)] bg-white",
         )}
       >
         <Contenu kind={doc.kind} />
@@ -371,7 +273,7 @@ function Tampon({ progress }: { progress: MotionValue<number> }) {
   return (
     <motion.div
       style={{ transform, opacity }}
-      className="absolute left-1/2 top-[58%] rounded-md border-[3px] border-vague-profonde px-4 py-1.5 font-mono text-lg font-semibold uppercase tracking-[0.2em] text-vague-profonde mix-blend-multiply sm:text-xl"
+      className="absolute left-1/2 top-[58%] rounded-md border-[3px] border-turquoise-fonce px-4 py-1.5 font-mono text-lg font-semibold uppercase tracking-[0.2em] text-turquoise-fonce mix-blend-multiply sm:text-xl"
     >
       Traité
     </motion.div>
@@ -383,7 +285,7 @@ function Tampon({ progress }: { progress: MotionValue<number> }) {
 function Ligne({ w, className }: { w: string; className?: string }) {
   return (
     <span
-      className={cn("block h-[1.6cqw] rounded-full bg-nuit/10", className)}
+      className={cn("block h-[1.6cqw] rounded-full bg-marine/10", className)}
       style={{ width: w }}
     />
   );
@@ -392,7 +294,7 @@ function Ligne({ w, className }: { w: string; className?: string }) {
 function Entete({ titre, numero }: { titre: string; numero: string }) {
   return (
     <div className="flex items-start justify-between gap-2">
-      <p className="font-display text-[9cqw] leading-none">{titre}</p>
+      <p className="font-display text-[8.5cqw] font-semibold leading-none">{titre}</p>
       <p className="pt-[1cqw] text-[3.6cqw] text-ardoise">{numero}</p>
     </div>
   );
@@ -407,9 +309,9 @@ function Contenu({ kind }: { kind: Doc["kind"] }): ReactNode {
           <p className="mt-[6cqw] text-[3.4cqw] leading-snug text-ardoise">
             Client
             <br />
-            <span className="text-nuit">Martin Rénovation</span>
+            <span className="text-marine">Martin Rénovation</span>
           </p>
-          <div className="mt-[6cqw] space-y-[2.6cqw] border-t border-nuit/10 pt-[4cqw] text-[3.4cqw]">
+          <div className="mt-[6cqw] space-y-[2.6cqw] border-t border-marine/10 pt-[4cqw] text-[3.4cqw]">
             <p className="flex justify-between">
               <span className="text-ardoise">Main-d'œuvre</span>
               <span>820,00</span>
@@ -419,7 +321,7 @@ function Contenu({ kind }: { kind: Doc["kind"] }): ReactNode {
               <span>420,00</span>
             </p>
           </div>
-          <div className="mt-auto flex items-end justify-between border-t border-nuit pt-[3cqw]">
+          <div className="mt-auto flex items-end justify-between border-t border-marine pt-[3cqw]">
             <span className="text-[3.4cqw] font-medium">Total HT</span>
             <span className="font-display text-[7.5cqw] leading-none">1 240,00 €</span>
           </div>
@@ -437,9 +339,9 @@ function Contenu({ kind }: { kind: Doc["kind"] }): ReactNode {
             <Ligne w="85%" />
             <Ligne w="60%" />
           </div>
-          <div className="mt-auto rounded-[1.5cqw] border border-dashed border-nuit/30 p-[4cqw] text-[3.2cqw] text-ardoise">
+          <div className="mt-auto rounded-[1.5cqw] border border-dashed border-marine/30 p-[4cqw] text-[3.2cqw] text-ardoise">
             Bon pour accord
-            <span className="mt-[4cqw] block h-px bg-nuit/20" />
+            <span className="mt-[4cqw] block h-px bg-marine/20" />
           </div>
         </>
       );
@@ -447,7 +349,7 @@ function Contenu({ kind }: { kind: Doc["kind"] }): ReactNode {
       return (
         <>
           <Entete titre="Relance" numero="2e envoi" />
-          <p className="mt-[5cqw] inline-flex w-fit rounded-full bg-vague-clair px-[3cqw] py-[1cqw] text-[3.2cqw] text-vague-profonde">
+          <p className="mt-[5cqw] inline-flex w-fit rounded-full bg-turquoise-pale px-[3cqw] py-[1cqw] text-[3.2cqw] text-turquoise-fonce">
             Échéance dépassée · 12 j
           </p>
           <p className="mt-[5cqw] text-[3.4cqw] text-ardoise">Facture 2026-0398</p>
@@ -474,7 +376,7 @@ function Contenu({ kind }: { kind: Doc["kind"] }): ReactNode {
             <Ligne w="97%" />
             <Ligne w="72%" />
           </div>
-          <svg viewBox="0 0 120 30" className="mt-auto w-[40%] text-nuit/70" fill="none">
+          <svg viewBox="0 0 120 30" className="mt-auto w-[40%] text-marine/70" fill="none">
             <path
               d="M4 22c10-14 18-16 20-8s-6 12-2 6 14-16 18-10-2 12 4 6 12-10 18-6 10 4 16-2 14-6 34-4"
               stroke="currentColor"
@@ -488,11 +390,11 @@ function Contenu({ kind }: { kind: Doc["kind"] }): ReactNode {
       return (
         <>
           <Entete titre="Suivi" numero="Septembre" />
-          <div className="mt-[6cqw] flex h-[34%] items-end gap-[3cqw] border-b border-nuit/15 pb-[1cqw]">
+          <div className="mt-[6cqw] flex h-[34%] items-end gap-[3cqw] border-b border-marine/15 pb-[1cqw]">
             {[46, 62, 38, 74, 58, 88].map((h, k) => (
               <span
                 key={k}
-                className={cn("flex-1 rounded-t-[1cqw]", k === 5 ? "bg-vague" : "bg-nuit/80")}
+                className={cn("flex-1 rounded-t-[1cqw]", k === 5 ? "bg-turquoise" : "bg-marine/80")}
                 style={{ height: `${h}%` }}
               />
             ))}
@@ -527,25 +429,27 @@ function Contenu({ kind }: { kind: Doc["kind"] }): ReactNode {
                 <span
                   className={cn(
                     "flex h-[5cqw] w-[5cqw] items-center justify-center rounded-[1cqw] border",
-                    ok ? "border-vague-profonde bg-vague-profonde text-white" : "border-nuit/30",
+                    ok
+                      ? "border-turquoise-fonce bg-turquoise-fonce text-white"
+                      : "border-marine/30",
                   )}
                 >
                   {ok ? <Check className="h-[70%] w-[70%]" strokeWidth={3} /> : null}
                 </span>
-                <span className={ok ? "text-nuit" : "text-ardoise"}>{String(k)}</span>
+                <span className={ok ? "text-marine" : "text-ardoise"}>{String(k)}</span>
               </li>
             ))}
           </ul>
           <div className="mt-auto flex gap-[2cqw]">
-            <span className="h-[2cqw] w-[30%] rounded-full bg-nuit" />
-            <span className="h-[2cqw] w-[20%] rounded-full bg-nuit/60" />
-            <span className="h-[2cqw] w-[10%] rounded-full bg-vague" />
+            <span className="h-[2cqw] w-[30%] rounded-full bg-marine" />
+            <span className="h-[2cqw] w-[20%] rounded-full bg-marine/60" />
+            <span className="h-[2cqw] w-[10%] rounded-full bg-turquoise" />
           </div>
         </>
       );
     case "postit":
       return (
-        <p className="font-display text-[11cqw] italic leading-[1.1] text-nuit">
+        <p className="font-display text-[10cqw] font-medium leading-[1.15] text-marine">
           Rappeler le comptable avant vendredi
         </p>
       );

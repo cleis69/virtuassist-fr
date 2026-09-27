@@ -11,7 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CgvRouteImport } from './routes/cgv'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as FonctionnementRouteImport } from './routes/fonctionnement'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
+import { Route as SecteursRouteImport } from './routes/secteurs'
+import { Route as TarifsRouteImport } from './routes/tarifs'
+import { Route as ServicesIndexRouteImport } from './routes/services/index'
+import { Route as ServicesSlugRouteImport } from './routes/services/$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,40 +30,134 @@ const CgvRoute = CgvRouteImport.update({
   path: '/cgv',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FonctionnementRoute = FonctionnementRouteImport.update({
+  id: '/fonctionnement',
+  path: '/fonctionnement',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
   id: '/mentions-legales',
   path: '/mentions-legales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SecteursRoute = SecteursRouteImport.update({
+  id: '/secteurs',
+  path: '/secteurs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TarifsRoute = TarifsRouteImport.update({
+  id: '/tarifs',
+  path: '/tarifs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesSlugRoute = ServicesSlugRouteImport.update({
+  id: '/services/$slug',
+  path: '/services/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cgv': typeof CgvRoute
+  '/contact': typeof ContactRoute
+  '/faq': typeof FaqRoute
+  '/fonctionnement': typeof FonctionnementRoute
   '/mentions-legales': typeof MentionsLegalesRoute
+  '/secteurs': typeof SecteursRoute
+  '/tarifs': typeof TarifsRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/services/': typeof ServicesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cgv': typeof CgvRoute
+  '/contact': typeof ContactRoute
+  '/faq': typeof FaqRoute
+  '/fonctionnement': typeof FonctionnementRoute
   '/mentions-legales': typeof MentionsLegalesRoute
+  '/secteurs': typeof SecteursRoute
+  '/tarifs': typeof TarifsRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/services': typeof ServicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cgv': typeof CgvRoute
+  '/contact': typeof ContactRoute
+  '/faq': typeof FaqRoute
+  '/fonctionnement': typeof FonctionnementRoute
   '/mentions-legales': typeof MentionsLegalesRoute
+  '/secteurs': typeof SecteursRoute
+  '/tarifs': typeof TarifsRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/services/': typeof ServicesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cgv' | '/mentions-legales'
+  fullPaths:
+    | '/'
+    | '/cgv'
+    | '/contact'
+    | '/faq'
+    | '/fonctionnement'
+    | '/mentions-legales'
+    | '/secteurs'
+    | '/tarifs'
+    | '/services/$slug'
+    | '/services/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cgv' | '/mentions-legales'
-  id: '__root__' | '/' | '/cgv' | '/mentions-legales'
+  to:
+    | '/'
+    | '/cgv'
+    | '/contact'
+    | '/faq'
+    | '/fonctionnement'
+    | '/mentions-legales'
+    | '/secteurs'
+    | '/tarifs'
+    | '/services/$slug'
+    | '/services'
+  id:
+    | '__root__'
+    | '/'
+    | '/cgv'
+    | '/contact'
+    | '/faq'
+    | '/fonctionnement'
+    | '/mentions-legales'
+    | '/secteurs'
+    | '/tarifs'
+    | '/services/$slug'
+    | '/services/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CgvRoute: typeof CgvRoute
+  ContactRoute: typeof ContactRoute
+  FaqRoute: typeof FaqRoute
+  FonctionnementRoute: typeof FonctionnementRoute
   MentionsLegalesRoute: typeof MentionsLegalesRoute
+  SecteursRoute: typeof SecteursRoute
+  TarifsRoute: typeof TarifsRoute
+  ServicesSlugRoute: typeof ServicesSlugRoute
+  ServicesIndexRoute: typeof ServicesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,11 +176,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CgvRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fonctionnement': {
+      id: '/fonctionnement'
+      path: '/fonctionnement'
+      fullPath: '/fonctionnement'
+      preLoaderRoute: typeof FonctionnementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mentions-legales': {
       id: '/mentions-legales'
       path: '/mentions-legales'
       fullPath: '/mentions-legales'
       preLoaderRoute: typeof MentionsLegalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/secteurs': {
+      id: '/secteurs'
+      path: '/secteurs'
+      fullPath: '/secteurs'
+      preLoaderRoute: typeof SecteursRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tarifs': {
+      id: '/tarifs'
+      path: '/tarifs'
+      fullPath: '/tarifs'
+      preLoaderRoute: typeof TarifsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/': {
+      id: '/services/'
+      path: '/services'
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/$slug': {
+      id: '/services/$slug'
+      path: '/services/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -88,7 +238,14 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CgvRoute: CgvRoute,
+  ContactRoute: ContactRoute,
+  FaqRoute: FaqRoute,
+  FonctionnementRoute: FonctionnementRoute,
   MentionsLegalesRoute: MentionsLegalesRoute,
+  SecteursRoute: SecteursRoute,
+  TarifsRoute: TarifsRoute,
+  ServicesSlugRoute: ServicesSlugRoute,
+  ServicesIndexRoute: ServicesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

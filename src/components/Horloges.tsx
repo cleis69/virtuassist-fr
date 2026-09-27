@@ -31,10 +31,7 @@ export function Horloges({
 }) {
   const now = useMaintenant();
   return (
-    <p
-      className={cn("font-mono text-[0.72rem] tabular-nums tracking-wide", className)}
-      aria-label="Heure locale"
-    >
+    <p className={cn("tabular-nums whitespace-nowrap", className)} aria-label="Heure locale">
       <span className="opacity-60">Paris</span>{" "}
       <span>{now ? heure("Europe/Paris", now) : "--:--"}</span>
       <span className="mx-2 opacity-40" aria-hidden="true">
@@ -51,20 +48,15 @@ export function Disponibilite({ className }: { className?: string | undefined })
   const now = useMaintenant(60_000);
   const dimanche = now ? jourParis(now) === "dimanche" : false;
   return (
-    <p
-      className={cn(
-        "inline-flex items-center gap-2 font-mono text-[0.72rem] tracking-wide",
-        className,
-      )}
-    >
+    <span className={cn("inline-flex items-center gap-2 whitespace-nowrap", className)}>
       <span
         aria-hidden="true"
         className={cn(
-          "block h-1.5 w-1.5 rounded-full",
-          dimanche ? "bg-on-nuit-muted" : "pastille-vivante bg-vague",
+          "block h-2 w-2 rounded-full",
+          dimanche ? "bg-sur-marine-doux" : "pastille-vivante bg-turquoise",
         )}
       />
       {dimanche ? "De retour lundi" : "Disponible aujourd'hui"}
-    </p>
+    </span>
   );
 }

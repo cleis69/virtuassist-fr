@@ -1,68 +1,100 @@
-import { useId } from "react";
 import { cn } from "@/lib/utils";
 
-type LogoProps = {
-  /** "sombre" = tracé dégradé sur fond clair, "clair" = tracé blanc sur fond bleu nuit */
-  tone?: "sombre" | "clair";
-  animate?: boolean;
-  className?: string;
-};
+/*
+ * Logo VirtuAssist.
+ *
+ * Le symbole : un V qui est aussi une coche. V comme VirtuAssist, coche
+ * comme « c'est fait ». Le bras court en turquoise, le bras long en blanc,
+ * dans un carré aux angles adoucis qui tient aussi bien en favicon qu'en
+ * enseigne.
+ */
 
-export function LogoMark({ tone = "sombre", animate = false, className }: LogoProps) {
-  const id = useId().replace(/:/g, "");
-  const gradId = `va-${id}`;
+type Ton = "clair" | "sombre";
 
+export function LogoMark({
+  ton = "sombre",
+  anime = false,
+  className,
+}: {
+  /** « sombre » : pour fond clair. « clair » : pour fond bleu marine. */
+  ton?: Ton;
+  anime?: boolean;
+  className?: string | undefined;
+}) {
+  const fond = ton === "sombre" ? "var(--marine)" : "#ffffff";
+  const brasLong = ton === "sombre" ? "#ffffff" : "var(--marine)";
   return (
-    <svg
-      viewBox="0 0 140 120"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      role="img"
-      aria-label="VIRTUASSIST"
-      className={className}
-    >
-      <defs>
-        <linearGradient id={gradId} x1="16" y1="60" x2="126" y2="60" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#0B2233" />
-          <stop offset="0.55" stopColor="#1B4F6E" />
-          <stop offset="1" stopColor="#2C86AF" />
-        </linearGradient>
-      </defs>
+    <svg viewBox="0 0 40 40" className={className} role="img" aria-label="VirtuAssist">
+      <rect width="40" height="40" rx="11" fill={fond} />
       <path
-        d="M16 18 L58 104 L78 60 C 98 16, 126 10, 126 78"
-        stroke={tone === "clair" ? "#FFFFFF" : `url(#${gradId})`}
-        strokeWidth="20"
+        d="M17.2 27 L29.2 12.8"
+        stroke={brasLong}
+        strokeWidth="4.4"
         strokeLinecap="round"
-        strokeLinejoin="miter"
-        className={animate ? "trace-logo" : undefined}
+        fill="none"
+        className={anime ? "trace-logo" : undefined}
+      />
+      <path
+        d="M10.8 20.6 L17.2 27"
+        stroke="var(--turquoise)"
+        strokeWidth="4.4"
+        strokeLinecap="round"
+        fill="none"
+        className={anime ? "trace-logo" : undefined}
       />
     </svg>
   );
 }
 
-export function Logotype({ tone = "sombre", className }: Omit<LogoProps, "animate">) {
+export function Logotype({
+  ton = "sombre",
+  className,
+}: {
+  ton?: Ton;
+  className?: string | undefined;
+}) {
   return (
     <span
       className={cn(
-        "font-display leading-none tracking-tight",
-        tone === "clair" ? "text-on-nuit" : "text-nuit",
+        "font-display font-semibold leading-none tracking-[-0.025em]",
+        ton === "sombre" ? "text-marine" : "text-white",
         className,
       )}
     >
-      VIRTU<em className="italic">ASSIST</em>
+      Virtu
+      <span className={ton === "sombre" ? "text-turquoise-fonce" : "text-turquoise"}>Assist</span>
     </span>
   );
 }
 
 export function LogoLockup({
-  tone = "sombre",
-  animate = false,
+  ton = "sombre",
+  anime = false,
+  descripteur = false,
   className,
-}: LogoProps) {
+}: {
+  ton?: Ton;
+  anime?: boolean;
+  /** Affiche « Assistance administrative » sous le nom. */
+  descripteur?: boolean;
+  className?: string | undefined;
+}) {
   return (
-    <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <LogoMark tone={tone} animate={animate} className="h-7 w-auto" />
-      <Logotype tone={tone} className="text-xl sm:text-[1.4rem]" />
+    <span className={cn("inline-flex items-center gap-3", className)}>
+      <LogoMark ton={ton} anime={anime} className="h-10 w-10 shrink-0" />
+      <span className="flex flex-col">
+        <Logotype ton={ton} className="text-[1.4rem]" />
+        {descripteur && (
+          <span
+            className={cn(
+              "mt-1 hidden text-[0.78rem] font-bold leading-none tracking-wide min-[440px]:block",
+              ton === "sombre" ? "text-ardoise" : "text-sur-marine-doux",
+            )}
+          >
+            Assistance administrative
+          </span>
+        )}
+      </span>
     </span>
   );
 }

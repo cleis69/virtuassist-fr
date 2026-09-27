@@ -10,30 +10,43 @@ import {
 import { useEffect, type ReactNode } from "react";
 import { MotionConfig } from "motion/react";
 import Lenis from "lenis";
+import { Gabarit } from "@/components/Gabarit";
+import { Bouton } from "@/components/ui-va/Bouton";
+import { Photo } from "@/components/ui-va/Photo";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
-    <div className="regle flex min-h-screen items-center justify-center bg-ivoire px-5">
-      <div className="max-w-md text-center">
-        <p className="label-section text-vague-profonde">Erreur 404</p>
-        <h1 className="mt-5 font-display text-6xl text-nuit">Page introuvable.</h1>
-        <p className="mt-4 text-ardoise">
-          Ce document n'est pas dans nos dossiers. Il a peut-être été déplacé, ou l'adresse contient
-          une faute de frappe.
-        </p>
-        <div className="mt-8">
-          <Link
-            to="/"
-            className="inline-flex min-h-12 items-center justify-center rounded-xl bg-vague-profonde px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-nuit"
-          >
-            Revenir à l'accueil
-          </Link>
+    <Gabarit>
+      <section className="bg-gris">
+        <div className="conteneur grid items-center gap-10 py-16 sm:py-24 lg:grid-cols-2">
+          <div>
+            <p className="surtitre">Erreur 404</p>
+            <h1 className="mt-4 font-display text-[clamp(2.2rem,4.6vw,3.4rem)] font-semibold leading-tight">
+              Cette page est introuvable.
+            </h1>
+            <p className="mt-5 text-lg text-ardoise">
+              Elle a peut-être été déplacée, ou l'adresse contient une faute de frappe. Voici où
+              aller ensuite :
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <Bouton to="/" taille="lg">
+                Revenir à l'accueil
+              </Bouton>
+              <Bouton to="/services" variante="secondaire" taille="lg" fleche={false}>
+                Nos services
+              </Bouton>
+              <Bouton to="/contact" variante="secondaire" taille="lg" fleche={false}>
+                Nous contacter
+              </Bouton>
+            </div>
+          </div>
+          <Photo cle="piles" ratio={4 / 3} priorite />
         </div>
-      </div>
-    </div>
+      </section>
+    </Gabarit>
   );
 }
 
@@ -45,10 +58,12 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-ivoire px-5">
+    <div className="flex min-h-screen items-center justify-center bg-gris px-5">
       <div className="max-w-md text-center">
-        <p className="label-section text-vague-profonde">Erreur</p>
-        <h1 className="mt-5 font-display text-5xl text-nuit">La page ne s'est pas chargée.</h1>
+        <p className="surtitre">Erreur</p>
+        <h1 className="mt-4 font-display text-4xl font-semibold text-marine">
+          La page ne s'est pas chargée.
+        </h1>
         <p className="mt-4 text-ardoise">
           Un problème est survenu de notre côté. Réessayez, ou revenez à l'accueil.
         </p>
@@ -58,13 +73,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
               router.invalidate();
               reset();
             }}
-            className="inline-flex min-h-12 items-center justify-center rounded-xl bg-vague-profonde px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-nuit"
+            className="inline-flex min-h-12 items-center justify-center rounded-xl bg-turquoise-fonce px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-marine"
           >
             Réessayer
           </button>
           <a
             href="/"
-            className="inline-flex min-h-12 items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold text-nuit ring-1 ring-inset ring-nuit/20 transition-colors hover:ring-nuit"
+            className="inline-flex min-h-12 items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold text-marine ring-1 ring-inset ring-marine/20 transition-colors hover:ring-marine"
           >
             Revenir à l'accueil
           </a>
@@ -105,9 +120,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,700;1,400&family=Lexend:wght@400;500;600;700&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "alternate icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
   shellComponent: RootShell,
@@ -135,6 +151,12 @@ function RootShell({ children }: { children: ReactNode }) {
  * défilement natif du téléphone reste le plus juste. Désactivé quand le
  * visiteur demande moins de mouvement.
  */
+declare global {
+  interface Window {
+    __lenis?: Lenis;
+  }
+}
+
 function useDefilementDoux() {
   useEffect(() => {
     const reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

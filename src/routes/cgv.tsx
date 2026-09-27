@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { SiteHeader } from "@/components/SiteHeader";
-import { SiteFooter } from "@/components/SiteFooter";
-import { Bars } from "@/components/Bars";
+import { Gabarit } from "@/components/Gabarit";
+import { FilAriane } from "@/components/ui-va/Blocs";
 
 const TITRE = "Conditions générales de vente — VIRTUASSIST";
 const DESCRIPTION =
@@ -25,23 +24,22 @@ export const Route = createFileRoute("/cgv")({
 function Article({ n, titre, children }: { n: string; titre: string; children: React.ReactNode }) {
   return (
     <section className="border-t border-border py-8">
-      <p className="label-section text-vague-profonde">Article {n}</p>
-      <h2 className="mt-2 font-display text-2xl text-nuit">{titre}</h2>
-      <div className="mt-3 space-y-3 text-sm leading-relaxed text-ardoise">{children}</div>
+      <p className="font-display font-medium text-turquoise-fonce">Article {n}</p>
+      <h2 className="mt-2 font-display text-2xl font-semibold">{titre}</h2>
+      <div className="mt-3 space-y-3 text-lg leading-relaxed text-ardoise">{children}</div>
     </section>
   );
 }
 
 function Cgv() {
   return (
-    <div className="min-h-screen bg-ivoire">
-      <SiteHeader />
-      <main className="mx-auto max-w-3xl px-5 pt-32 pb-24 sm:pt-40 sm:pb-32">
-        <Bars className="mb-8" />
-        <h1 className="font-display text-4xl text-nuit sm:text-5xl">
+    <Gabarit>
+      <div className="conteneur max-w-4xl! py-12 sm:py-16">
+        <FilAriane etapes={[{ label: "Conditions générales de vente" }]} />
+        <h1 className="mt-8 font-display text-4xl font-semibold tracking-[-0.02em] sm:text-5xl">
           Conditions générales de vente
         </h1>
-        <p className="mt-4 text-sm text-ardoise">
+        <p className="mt-4 text-lg text-ardoise">
           Version applicable aux prestations d'assistance administrative externalisée VIRTUASSIST.
           Les éléments entre crochets sont à compléter avant publication.
         </p>
@@ -140,13 +138,12 @@ function Cgv() {
           </p>
         </Article>
 
-        <p className="mt-10 text-sm">
-          <Link className="font-semibold text-vague-profonde underline underline-offset-4" to="/">
+        <p className="mt-10">
+          <Link className="lien" to="/">
             Retour à l'accueil
           </Link>
         </p>
-      </main>
-      <SiteFooter />
-    </div>
+      </div>
+    </Gabarit>
   );
 }
