@@ -26,7 +26,7 @@ export function Zones() {
   ];
 
   return (
-    <section className="bg-gris py-20 sm:py-28">
+    <section className="bg-ivoire py-20 sm:py-28">
       <div className="conteneur">
         <EnTete
           surtitre="Où nous intervenons"

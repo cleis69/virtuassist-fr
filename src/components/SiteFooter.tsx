@@ -1,8 +1,6 @@
 import { Link, type LinkProps } from "@tanstack/react-router";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { Mail, Phone } from "lucide-react";
-import { useRef } from "react";
-import { LogoLockup } from "./Logo";
+import { Logo } from "./Logo";
 import { Horloges } from "./Horloges";
 import { ENTREPRISE, SERVICES } from "@/content/site";
 
@@ -15,24 +13,16 @@ const DECOUVRIR: { to: NonNullable<LinkProps["to"]>; label: string }[] = [
 ];
 
 export function SiteFooter() {
-  const ref = useRef<HTMLElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
-  const y = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["40%", "0%"]);
-
   return (
-    <footer
-      ref={ref}
-      className="relative overflow-hidden bg-marine-profond text-sur-marine-doux pb-[calc(var(--bottom-nav)+env(safe-area-inset-bottom))] lg:pb-0"
-    >
+    <footer className="relative overflow-hidden bg-marine-profond text-sur-marine-doux pb-[calc(var(--bottom-nav)+env(safe-area-inset-bottom))] lg:pb-0">
       <div className="conteneur pt-16 sm:pt-20">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.1fr]">
           <div className="max-w-sm">
-            <LogoLockup ton="clair" descripteur />
-            <p className="mt-6 font-display text-2xl font-medium leading-snug text-white">
-              {ENTREPRISE.slogan}
+            <Logo fond="sombre" className="w-[15rem]" />
+            <p className="mt-4 font-mono text-[0.95rem] tracking-[0.06em] text-sur-marine-doux">
+              votre administratif, notre priorité.
             </p>
-            <p className="mt-3">{ENTREPRISE.zones}</p>
+            <p className="mt-6">{ENTREPRISE.zones}</p>
           </div>
 
           <div>
@@ -95,7 +85,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-14 flex flex-col gap-3 border-t border-white/12 py-6 text-[0.95rem] sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} VirtuAssist. Tarifs indiqués hors taxes.</p>
+          <p>© {new Date().getFullYear()} VIRTUASSIST. Tarifs indiqués hors taxes.</p>
           <p className="flex flex-wrap gap-x-5 gap-y-2">
             <Link to="/mentions-legales" className="hover:text-white hover:underline">
               Mentions légales
@@ -108,14 +98,8 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div aria-hidden="true" className="overflow-hidden px-3 sm:px-5">
-        <motion.p
-          style={{ y }}
-          className="select-none whitespace-nowrap text-center font-display text-[15.5vw] font-semibold leading-[0.8] tracking-[-0.05em] text-white/[0.06]"
-        >
-          VirtuAssist
-        </motion.p>
-      </div>
+      {/* Filet au dégradé de marque, comme sur la charte. */}
+      <div aria-hidden="true" className="filet-marque h-1.5 w-full" />
     </footer>
   );
 }

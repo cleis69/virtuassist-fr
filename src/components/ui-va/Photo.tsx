@@ -63,7 +63,7 @@ export function Photo({
       style={{ aspectRatio: String(ratio) }}
     >
       <motion.div
-        className="absolute inset-0 overflow-hidden rounded-[inherit] bg-gris"
+        className="absolute inset-0 overflow-hidden rounded-[inherit] bg-ivoire-fonce"
         initial={rideau ? { clipPath: CACHE } : false}
         animate={rideau ? { clipPath: vu ? VISIBLE : CACHE } : {}}
         transition={{ duration: 1.1, ease: EASE }}

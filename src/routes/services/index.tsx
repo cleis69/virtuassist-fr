@@ -15,7 +15,7 @@ export const Route = createFileRoute("/services/")({
   head: () => ({
     meta: meta(
       "Nos services d'assistance administrative",
-      "Facturation et relances, administration quotidienne, données et tableaux de suivi, accompagnement digital, formation : tout ce que VirtuAssist prend en charge pour les TPE et PME.",
+      "Facturation et relances, administration quotidienne, données et tableaux de suivi, accompagnement digital, formation : tout ce que VIRTUASSIST prend en charge pour les TPE et PME.",
     ),
   }),
   component: PageServices,
@@ -48,7 +48,7 @@ function PageServices() {
             <li key={s.slug} className="shrink-0">
               <a
                 href={`#${s.slug}`}
-                className="inline-flex min-h-12 items-center gap-2.5 rounded-xl bg-gris px-4 py-2 font-display font-medium text-marine transition-colors hover:bg-turquoise-pale"
+                className="inline-flex min-h-12 items-center gap-2.5 rounded-xl bg-ivoire px-4 py-2 font-display font-medium text-marine transition-colors hover:bg-turquoise-pale"
               >
                 <IconeService slug={s.slug} className="h-8 w-8 bg-white" />
                 {s.court}
@@ -101,7 +101,7 @@ function PageServices() {
         </div>
       </div>
 
-      <section className="bg-gris py-20 sm:py-24">
+      <section className="bg-ivoire py-20 sm:py-24">
         <div className="conteneur grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
           <EnTete
             surtitre="Pour être clair"
@@ -125,7 +125,7 @@ function PageServices() {
                 ],
               ].map(([t, d]) => (
                 <li key={t} className="flex gap-4">
-                  <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gris text-ardoise">
+                  <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ivoire text-ardoise">
                     <Ban className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <div>

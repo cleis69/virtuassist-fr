@@ -23,7 +23,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { Drawer, DrawerClose, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
 import { Disponibilite } from "@/components/Horloges";
-import { LogoLockup } from "@/components/Logo";
+import { Logo } from "@/components/Logo";
 import { Bouton } from "@/components/ui-va/Bouton";
 import { Photo } from "@/components/ui-va/Photo";
 import { IconeService } from "@/components/ui-va/IconeService";
@@ -97,7 +97,7 @@ function BarreInfos() {
 
 function BarrePrincipale({ onMenu }: { onMenu: () => void }) {
   const chemin = useChemin();
-  const { scrollY } = useScroll();
+  const { scrollY, scrollYProgress } = useScroll();
   const [decollee, setDecollee] = useState(false);
   useMotionValueEvent(scrollY, "change", (y) => setDecollee(y > 48));
 
@@ -109,8 +109,10 @@ function BarrePrincipale({ onMenu }: { onMenu: () => void }) {
       )}
     >
       <div className="conteneur flex h-[4.5rem] items-center justify-between gap-3 lg:h-20">
-        <Link to="/" aria-label="VirtuAssist — accueil" className="shrink-0 rounded-lg">
-          <LogoLockup anime descripteur />
+        {/* Logo sans baseline (charte : en-têtes serrés). Zone de protection
+            respectée par le padding : un tiers de la hauteur du monogramme. */}
+        <Link to="/" aria-label="VIRTUASSIST — accueil" className="shrink-0 rounded-lg py-1.5 pr-1">
+          <Logo anime className="w-[11.5rem] sm:w-[13rem] lg:w-[13.5rem]" />
         </Link>
 
         <LayoutGroup id="nav-haut">
@@ -124,7 +126,7 @@ function BarrePrincipale({ onMenu }: { onMenu: () => void }) {
                   to={p.to}
                   aria-current={on ? "page" : undefined}
                   className={cn(
-                    "relative rounded-lg px-3 py-2.5 font-display text-[1rem] font-medium transition-colors hover:bg-gris xl:px-4",
+                    "relative rounded-lg px-3 py-2.5 font-display text-[1rem] font-medium transition-colors hover:bg-ivoire xl:px-4",
                     on ? "text-turquoise-fonce" : "text-marine",
                   )}
                 >
@@ -139,7 +141,7 @@ function BarrePrincipale({ onMenu }: { onMenu: () => void }) {
         <div className="flex items-center gap-2 sm:gap-3">
           <Link
             to="/contact"
-            className="hidden rounded-lg px-3 py-2.5 font-display font-medium text-marine hover:bg-gris xl:inline-flex"
+            className="hidden rounded-lg px-3 py-2.5 font-display font-medium text-marine hover:bg-ivoire xl:inline-flex"
           >
             Contact
           </Link>
@@ -149,7 +151,7 @@ function BarrePrincipale({ onMenu }: { onMenu: () => void }) {
 
           <a
             href={`tel:${ENTREPRISE.telephone}`}
-            className="inline-flex h-12 min-w-12 shrink-0 items-center justify-center gap-2 rounded-xl px-3 font-display font-medium text-marine ring-2 ring-inset ring-marine/15 lg:hidden"
+            className="inline-flex h-12 min-w-11 shrink-0 items-center justify-center gap-2 rounded-xl px-2.5 font-display font-medium text-marine ring-2 ring-inset ring-marine/15 max-[379px]:hidden lg:hidden"
             aria-label={`Appeler le ${ENTREPRISE.telephoneAffiche}`}
           >
             <Phone className="h-5 w-5" aria-hidden="true" />
@@ -159,13 +161,19 @@ function BarrePrincipale({ onMenu }: { onMenu: () => void }) {
             type="button"
             onClick={onMenu}
             aria-haspopup="dialog"
-            className="inline-flex h-12 shrink-0 items-center gap-2 rounded-xl bg-marine px-3.5 font-display font-medium text-white lg:hidden"
+            className="inline-flex h-12 shrink-0 items-center gap-2 rounded-xl bg-marine px-3 font-display font-medium text-white lg:hidden"
           >
             <Menu className="h-5 w-5" aria-hidden="true" />
             Menu
           </button>
         </div>
       </div>
+      {/* Progression de lecture, au dégradé de marque (le filet de la charte). */}
+      <motion.div
+        aria-hidden="true"
+        style={{ scaleX: scrollYProgress }}
+        className="filet-marque absolute inset-x-0 bottom-0 h-[3px] origin-left"
+      />
     </header>
   );
 }
@@ -231,7 +239,7 @@ function MenuServices({ actif }: { actif: boolean }) {
         aria-controls="panneau-services"
         onClick={() => setOuvert((v) => !v)}
         className={cn(
-          "relative inline-flex items-center gap-1.5 rounded-lg px-3 py-2.5 font-display text-[1rem] font-medium transition-colors hover:bg-gris xl:px-4",
+          "relative inline-flex items-center gap-1.5 rounded-lg px-3 py-2.5 font-display text-[1rem] font-medium transition-colors hover:bg-ivoire xl:px-4",
           actif ? "text-turquoise-fonce" : "text-marine",
         )}
       >
@@ -260,7 +268,7 @@ function MenuServices({ actif }: { actif: boolean }) {
                     <Link
                       to="/services/$slug"
                       params={{ slug: s.slug }}
-                      className="group flex gap-4 rounded-2xl p-4 transition-colors hover:bg-gris"
+                      className="group flex gap-4 rounded-2xl p-4 transition-colors hover:bg-ivoire"
                     >
                       <IconeService
                         slug={s.slug}
@@ -280,7 +288,7 @@ function MenuServices({ actif }: { actif: boolean }) {
                 <li>
                   <Link
                     to="/services"
-                    className="flex h-full items-center gap-2 rounded-2xl p-4 font-bold text-turquoise-fonce hover:bg-gris"
+                    className="flex h-full items-center gap-2 rounded-2xl p-4 font-bold text-turquoise-fonce hover:bg-ivoire"
                   >
                     Voir tous les services
                     <ChevronRight className="h-5 w-5" aria-hidden="true" />
@@ -407,8 +415,8 @@ function MenuMobile({ ouvert, onChange }: { ouvert: boolean; onChange: (v: boole
       <DrawerContent className="max-h-[92svh] border-0 bg-white">
         <DrawerTitle className="sr-only">Menu</DrawerTitle>
         <div className="flex items-center justify-between px-5 pt-3">
-          <LogoLockup descripteur />
-          <DrawerClose className="inline-flex h-12 items-center gap-2 rounded-xl bg-gris px-4 font-display font-medium text-marine">
+          <Logo className="w-[11.5rem]" />
+          <DrawerClose className="inline-flex h-12 items-center gap-2 rounded-xl bg-ivoire px-4 font-display font-medium text-marine">
             <X className="h-5 w-5" aria-hidden="true" />
             Fermer
           </DrawerClose>
@@ -423,7 +431,7 @@ function MenuMobile({ ouvert, onChange }: { ouvert: boolean; onChange: (v: boole
                   to="/services/$slug"
                   params={{ slug: s.slug }}
                   onClick={fermer}
-                  className="flex items-center gap-3 rounded-xl px-2 py-2.5 font-display text-[1.05rem] font-medium text-marine active:bg-gris"
+                  className="flex items-center gap-3 rounded-xl px-2 py-2.5 font-display text-[1.05rem] font-medium text-marine active:bg-ivoire"
                 >
                   <IconeService slug={s.slug} className="h-10 w-10" />
                   {s.nom}

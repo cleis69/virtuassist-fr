@@ -44,7 +44,7 @@ function PageContact() {
 
   return (
     <Gabarit>
-      <section className="bg-gris">
+      <section className="bg-ivoire">
         <div className="conteneur grid gap-12 py-10 sm:py-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14 lg:py-16">
           <div>
             <Rise onMount y={10}>
@@ -125,7 +125,7 @@ function PageContact() {
             </p>
             <p className="mt-1 text-ardoise">{ENTREPRISE.jours}</p>
           </a>
-          <div className="rounded-3xl bg-gris p-7">
+          <div className="rounded-3xl bg-ivoire p-7">
             <p className="font-display text-xl font-semibold text-marine">
               Deux fuseaux, mêmes délais
             </p>

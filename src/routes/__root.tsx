@@ -20,7 +20,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 function NotFoundComponent() {
   return (
     <Gabarit>
-      <section className="bg-gris">
+      <section className="bg-ivoire">
         <div className="conteneur grid items-center gap-10 py-16 sm:py-24 lg:grid-cols-2">
           <div>
             <p className="surtitre">Erreur 404</p>
@@ -58,7 +58,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gris px-5">
+    <div className="flex min-h-screen items-center justify-center bg-ivoire px-5">
       <div className="max-w-md text-center">
         <p className="surtitre">Erreur</p>
         <h1 className="mt-4 font-display text-4xl font-semibold text-marine">
@@ -120,10 +120,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,700;1,400&family=Lexend:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap",
       },
+      // Intégration web prévue par la charte.
+      { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-      { rel: "alternate icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "apple-touch-icon", href: "/favicon-180-apple-touch-icon.png" },
     ],
   }),
   shellComponent: RootShell,

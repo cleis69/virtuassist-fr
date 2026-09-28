@@ -26,7 +26,7 @@ export function PageHero({
   encart?: ReactNode;
 }) {
   return (
-    <section className="relative overflow-hidden bg-gris">
+    <section className="relative overflow-hidden bg-ivoire">
       <div className="conteneur grid items-center gap-10 py-10 sm:py-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:py-20">
         <div>
           <Rise onMount y={10}>

@@ -21,7 +21,7 @@ export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: meta(
       "Questions fréquentes",
-      "Délais, forfait et heures, report, engagement, documents, comptabilité, La Réunion : les réponses aux questions que l'on nous pose sur l'assistance administrative VirtuAssist.",
+      "Délais, forfait et heures, report, engagement, documents, comptabilité, La Réunion : les réponses aux questions que l'on nous pose sur l'assistance administrative VIRTUASSIST.",
     ),
     scripts: [{ type: "application/ld+json", children: JSON.stringify(JSONLD) }],
   }),
@@ -55,7 +55,7 @@ function PageFaq() {
                   <li key={t.theme}>
                     <a
                       href={`#${ancre(t.theme)}`}
-                      className="inline-flex min-h-12 items-center rounded-xl bg-gris px-4 font-display font-medium text-marine transition-colors hover:bg-turquoise-pale"
+                      className="inline-flex min-h-12 items-center rounded-xl bg-ivoire px-4 font-display font-medium text-marine transition-colors hover:bg-turquoise-pale"
                     >
                       {t.theme}
                       <span className="ml-2 text-ardoise">({t.questions.length})</span>
@@ -64,7 +64,7 @@ function PageFaq() {
                 ))}
               </ul>
             </nav>
-            <div className="mt-10 rounded-3xl bg-gris p-6">
+            <div className="mt-10 rounded-3xl bg-ivoire p-6">
               <p className="font-display text-lg font-semibold text-marine">
                 Vous ne trouvez pas votre réponse ?
               </p>

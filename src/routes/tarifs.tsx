@@ -84,7 +84,7 @@ function PageTarifs() {
         </div>
       </section>
 
-      <section className="bg-gris py-20 sm:py-24">
+      <section className="bg-ivoire py-20 sm:py-24">
         <div className="conteneur">
           <EnTete
             surtitre="Comparatif"
@@ -113,7 +113,7 @@ function PageTarifs() {
             <EnTete surtitre="Les règles du jeu" titre="Pas de mauvaise surprise sur la facture." />
             <ul className="mt-8 space-y-4">
               {REGLES.map((r) => (
-                <li key={r.titre} className="flex gap-5 rounded-3xl bg-gris p-6 sm:p-7">
+                <li key={r.titre} className="flex gap-5 rounded-3xl bg-ivoire p-6 sm:p-7">
                   <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white text-turquoise-fonce ring-1 ring-ligne">
                     <r.Icone className="h-6 w-6" aria-hidden="true" />
                   </span>
@@ -130,7 +130,7 @@ function PageTarifs() {
 
       <Fondateurs />
 
-      <section className="bg-gris py-20 sm:py-24">
+      <section className="bg-ivoire py-20 sm:py-24">
         <div className="conteneur grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <EnTete surtitre="Questions sur les tarifs" titre="Forfait, heures et facturation." />
           <Questions questions={questionsForfait} ouverte={questionsForfait[0]?.q} />

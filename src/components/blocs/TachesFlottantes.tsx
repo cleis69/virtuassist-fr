@@ -9,7 +9,7 @@ const TACHES = [
 
 /**
  * Trois tâches qui se cochent l'une après l'autre sur la photo d'accueil :
- * ce que fait VirtuAssist, montré plutôt que raconté. Illustration.
+ * ce que fait VIRTUASSIST, montré plutôt que raconté. Illustration.
  */
 export function TachesFlottantes() {
   const reduce = useReducedMotion();

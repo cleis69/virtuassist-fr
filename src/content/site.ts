@@ -9,7 +9,7 @@ import type { PhotoCle } from "./images";
  */
 
 export const ENTREPRISE = {
-  nom: "VirtuAssist",
+  nom: "VIRTUASSIST",
   slogan: "Votre administratif, notre priorité.",
   email: "contact@virtuassist.fr",
   telephone: "+33000000000",
@@ -313,7 +313,7 @@ export const OPTIONS: [string, string][] = [
 
 export const FONDATEURS = [
   "Diagnostic de démarrage offert",
-  "Installation de l'espace VirtuAssist offerte (valeur 150 € HT)",
+  "Installation de l'espace VIRTUASSIST offerte (valeur 150 € HT)",
   "+2 h offertes le premier mois sur Sérénité",
   "+4 h offertes le premier mois sur Premium",
   "Tarif garanti 12 mois",
@@ -438,7 +438,7 @@ export const FAQ: { theme: string; questions: Question[] }[] = [
       },
       {
         q: "Comment vous transmettre mes documents ?",
-        r: "Par votre espace VirtuAssist, par email ou via l'outil que vous utilisez déjà (drive partagé, logiciel de facturation). Nous nous adaptons à votre organisation existante plutôt que de vous en imposer une.",
+        r: "Par votre espace VIRTUASSIST, par email ou via l'outil que vous utilisez déjà (drive partagé, logiciel de facturation). Nous nous adaptons à votre organisation existante plutôt que de vous en imposer une.",
       },
       {
         q: "Travaillez-vous avec La Réunion malgré le décalage horaire ?",

@@ -216,7 +216,7 @@ export function Comparatif() {
           Comparaison des formules Essentiel, Sérénité et Premium
         </caption>
         <thead>
-          <tr className="bg-gris">
+          <tr className="bg-ivoire">
             <th scope="col" className="w-[40%] p-5 font-display text-lg font-semibold text-marine">
               Ce qui est inclus
             </th>

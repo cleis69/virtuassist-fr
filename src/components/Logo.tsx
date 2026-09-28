@@ -1,100 +1,123 @@
+import { useId } from "react";
+import { BASELINE, LOGOTYPE, MONOGRAMME, TRANSFORMS } from "@/components/brand/traces";
 import { cn } from "@/lib/utils";
 
 /*
- * Logo VirtuAssist.
+ * Logo VIRTUASSIST, conforme à la charte graphique.
  *
- * Le symbole : un V qui est aussi une coche. V comme VirtuAssist, coche
- * comme « c'est fait ». Le bras court en turquoise, le bras long en blanc,
- * dans un carré aux angles adoucis qui tient aussi bien en favicon qu'en
- * enseigne.
+ * Rendu en SVG en ligne à partir des tracés officiels : même dessin, mêmes
+ * proportions, et un seul dégradé appliqué au monogramme et au logotype
+ * d'un seul tenant — jamais deux dégradés séparés.
+ *
+ *  - fond « clair » : dégradé #0B2233 → #1B4F6E → #2C86AF (version principale)
+ *  - fond « sombre » : dégradé #FFFFFF → #9AD7E6 → #14A3A0 (fond bleu nuit)
+ *
+ * Taille minimale du monogramme : 24 px. Le logo sans baseline mesure donc
+ * au moins 28 px de haut. Zone de protection : un tiers de la hauteur du
+ * monogramme, tout autour — à respecter dans les mises en page.
  */
 
-type Ton = "clair" | "sombre";
+type Fond = "clair" | "sombre";
 
-export function LogoMark({
-  ton = "sombre",
+const DEGRADES: Record<Fond, [string, string, string]> = {
+  clair: ["#0B2233", "#1B4F6E", "#2C86AF"],
+  sombre: ["#FFFFFF", "#9AD7E6", "#14A3A0"],
+};
+
+const COULEUR_BASELINE: Record<Fond, string> = { clair: "#445663", sombre: "#9FB2C0" };
+
+export function Logo({
+  fond = "clair",
+  baseline = false,
   anime = false,
   className,
 }: {
-  /** « sombre » : pour fond clair. « clair » : pour fond bleu marine. */
-  ton?: Ton;
+  fond?: Fond;
+  /** Avec « Votre administratif, notre priorité. » : grands formats seulement. */
+  baseline?: boolean;
+  /** Le monogramme se trace au chargement, le logotype apparaît ensuite. */
   anime?: boolean;
   className?: string | undefined;
 }) {
-  const fond = ton === "sombre" ? "var(--marine)" : "#ffffff";
-  const brasLong = ton === "sombre" ? "#ffffff" : "var(--marine)";
+  const id = `va-${useId().replace(/:/g, "")}`;
+  const t = baseline ? TRANSFORMS.avecBaseline : TRANSFORMS.sansBaseline;
+  const [a, b, c] = DEGRADES[fond];
+
   return (
-    <svg viewBox="0 0 40 40" className={className} role="img" aria-label="VirtuAssist">
-      <rect width="40" height="40" rx="11" fill={fond} />
-      <path
-        d="M17.2 27 L29.2 12.8"
-        stroke={brasLong}
-        strokeWidth="4.4"
-        strokeLinecap="round"
-        fill="none"
-        className={anime ? "trace-logo" : undefined}
-      />
-      <path
-        d="M10.8 20.6 L17.2 27"
-        stroke="var(--turquoise)"
-        strokeWidth="4.4"
-        strokeLinecap="round"
-        fill="none"
-        className={anime ? "trace-logo" : undefined}
-      />
+    <svg
+      viewBox={t.viewBox}
+      role="img"
+      aria-label="VIRTUASSIST"
+      className={cn("block h-auto", className)}
+    >
+      <defs>
+        <linearGradient id={id} x1="-7.0" y1="0" x2="761.1" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor={a} />
+          <stop offset=".55" stopColor={b} />
+          <stop offset="1" stopColor={c} />
+        </linearGradient>
+      </defs>
+      <g transform="translate(7.0 7.0)">
+        <g transform={t.monogramme}>
+          <path
+            d={MONOGRAMME}
+            fill="none"
+            stroke={`url(#${id})`}
+            strokeWidth="20"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            pathLength={1}
+            className={anime ? "trace-monogramme" : undefined}
+          />
+        </g>
+        <g transform={t.logotype}>
+          <path
+            d={LOGOTYPE}
+            fill={`url(#${id})`}
+            className={anime ? "apparition-logotype" : undefined}
+          />
+        </g>
+        {"baseline" in t && (
+          <g transform={t.baseline}>
+            <path d={BASELINE} fill={COULEUR_BASELINE[fond]} />
+          </g>
+        )}
+      </g>
     </svg>
   );
 }
 
-export function Logotype({
-  ton = "sombre",
+/** Monogramme seul (icône d'application, très petits formats). */
+export function Monogramme({
+  version = "degrade",
   className,
 }: {
-  ton?: Ton;
+  version?: "degrade" | "bleu-nuit" | "blanc";
   className?: string | undefined;
 }) {
+  const id = `vm-${useId().replace(/:/g, "")}`;
+  const trait = version === "degrade" ? `url(#${id})` : version === "blanc" ? "#FFFFFF" : "#0F2A3D";
   return (
-    <span
-      className={cn(
-        "font-display font-semibold leading-none tracking-[-0.025em]",
-        ton === "sombre" ? "text-marine" : "text-white",
-        className,
+    <svg viewBox="0 0 130 106" role="img" aria-label="VIRTUASSIST" className={className}>
+      {version === "degrade" && (
+        <defs>
+          <linearGradient id={id} x1="0" y1="0" x2="130" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#0B2233" />
+            <stop offset=".55" stopColor="#1B4F6E" />
+            <stop offset="1" stopColor="#2C86AF" />
+          </linearGradient>
+        </defs>
       )}
-    >
-      Virtu
-      <span className={ton === "sombre" ? "text-turquoise-fonce" : "text-turquoise"}>Assist</span>
-    </span>
-  );
-}
-
-export function LogoLockup({
-  ton = "sombre",
-  anime = false,
-  descripteur = false,
-  className,
-}: {
-  ton?: Ton;
-  anime?: boolean;
-  /** Affiche « Assistance administrative » sous le nom. */
-  descripteur?: boolean;
-  className?: string | undefined;
-}) {
-  return (
-    <span className={cn("inline-flex items-center gap-3", className)}>
-      <LogoMark ton={ton} anime={anime} className="h-10 w-10 shrink-0" />
-      <span className="flex flex-col">
-        <Logotype ton={ton} className="text-[1.4rem]" />
-        {descripteur && (
-          <span
-            className={cn(
-              "mt-1 hidden text-[0.78rem] font-bold leading-none tracking-wide min-[440px]:block",
-              ton === "sombre" ? "text-ardoise" : "text-sur-marine-doux",
-            )}
-          >
-            Assistance administrative
-          </span>
-        )}
-      </span>
-    </span>
+      <g transform="translate(-6.0 -8.0)">
+        <path
+          d={MONOGRAMME}
+          fill="none"
+          stroke={trait}
+          strokeWidth="20"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+    </svg>
   );
 }

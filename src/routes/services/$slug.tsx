@@ -33,7 +33,7 @@ const DEROULE = [
   {
     Icone: Send,
     titre: "Vous transmettez",
-    texte: "Par votre espace VirtuAssist, par email ou via vos outils habituels.",
+    texte: "Par votre espace VIRTUASSIST, par email ou via vos outils habituels.",
   },
   {
     Icone: Timer,
@@ -91,7 +91,7 @@ function PageService() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "0px 0px -8% 0px" }}
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: (i % 2) * 0.08 }}
-                className="rounded-3xl bg-gris p-7 sm:p-8"
+                className="rounded-3xl bg-ivoire p-7 sm:p-8"
               >
                 <span className="flex h-11 w-11 items-center justify-center rounded-full bg-marine font-display text-lg font-semibold text-white">
                   {i + 1}
@@ -104,7 +104,7 @@ function PageService() {
         </div>
       </section>
 
-      <section className="bg-gris py-20 sm:py-28">
+      <section className="bg-ivoire py-20 sm:py-28">
         <div className="conteneur grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Photo cle={s.photo2} ratio={4 / 3} sizes="(min-width: 1024px) 45vw, 100vw" />
           <div>
@@ -149,7 +149,7 @@ function PageService() {
         </div>
       </section>
 
-      <section className="bg-gris py-20 sm:py-28">
+      <section className="bg-ivoire py-20 sm:py-28">
         <div className="conteneur">
           <EnTete surtitre="Nos autres services" titre="Vous pouvez aussi nous confier…" />
           <div className="mt-12">

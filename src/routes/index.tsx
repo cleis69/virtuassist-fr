@@ -19,14 +19,14 @@ import { Bouton } from "@/components/ui-va/Bouton";
 import { Photo } from "@/components/ui-va/Photo";
 import { CONSTATS, FORMULES, TOUTES_QUESTIONS } from "@/content/site";
 
-const TITRE = "VirtuAssist — Assistance administrative externalisée pour TPE et PME";
+const TITRE = "VIRTUASSIST — Assistance administrative externalisée pour TPE et PME";
 const DESCRIPTION =
   "Assistance administrative externalisée pour TPE, PME, indépendants et professionnels : facturation, relances, secrétariat, suivi de dossiers. France métropolitaine et La Réunion. Diagnostic gratuit.";
 
 const JSONLD = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  name: "VirtuAssist",
+  name: "VIRTUASSIST",
   slogan: "Votre administratif, notre priorité.",
   description: DESCRIPTION,
   email: "contact@virtuassist.fr",
@@ -66,7 +66,7 @@ function Accueil() {
       <Chiffres />
       <Constat />
 
-      <section className="bg-gris py-20 sm:py-28">
+      <section className="bg-ivoire py-20 sm:py-28">
         <div className="conteneur">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <EnTete
@@ -90,7 +90,7 @@ function Accueil() {
 
       <BureauRange />
 
-      <section className="bg-gris py-20 sm:py-28">
+      <section className="bg-ivoire py-20 sm:py-28">
         <div className="conteneur">
           <EnTete
             centre
@@ -177,7 +177,7 @@ function Hero() {
     <section className="relative overflow-hidden bg-white">
       <div
         aria-hidden="true"
-        className="absolute inset-y-0 right-0 hidden w-[42%] rounded-bl-[4rem] bg-gris lg:block"
+        className="absolute inset-y-0 right-0 hidden w-[42%] rounded-bl-[4rem] bg-ivoire lg:block"
       />
       <div className="conteneur relative grid items-center gap-12 pt-10 pb-16 sm:pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:py-20">
         <div>
@@ -258,7 +258,7 @@ function Constat() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "0px 0px -10% 0px" }}
                   transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: i * 0.08 }}
-                  className="flex gap-5 rounded-2xl bg-gris p-5 sm:p-6"
+                  className="flex gap-5 rounded-2xl bg-ivoire p-5 sm:p-6"
                 >
                   <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white text-turquoise-fonce ring-1 ring-ligne">
                     <Icone className="h-6 w-6" aria-hidden="true" />

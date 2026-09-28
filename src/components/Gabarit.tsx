@@ -17,7 +17,7 @@ export function Gabarit({ children }: { children: ReactNode }) {
 
 /** Titre et description d'une page, pour les moteurs et le partage. */
 export function meta(titre: string, description: string) {
-  const t = `${titre} | VirtuAssist`;
+  const t = `${titre} | VIRTUASSIST`;
   return [
     { title: t },
     { name: "description", content: description },

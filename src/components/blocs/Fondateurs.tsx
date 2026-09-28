@@ -17,7 +17,7 @@ export function Fondateurs() {
   return (
     <section ref={ref} className="bg-white py-16 sm:py-24">
       <div className="conteneur">
-        <div className="relative grid overflow-hidden rounded-[2rem] bg-sable lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="relative grid overflow-hidden rounded-[2rem] bg-ivoire-fonce lg:grid-cols-[0.95fr_1.05fr]">
           <div className="relative">
             <Photo
               cle="accord"

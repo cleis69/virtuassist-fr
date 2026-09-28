@@ -5,14 +5,15 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * VirtuAssist — système graphique.
+ * VIRTUASSIST — système graphique, d'après la charte (virtuassist-identite-visuelle).
  *
- * Lisibilité d'abord : un public de 30 à 60 ans, des dirigeants pressés qui
- * lisent sur ordinateur comme sur téléphone.
- *  - Titres : Lexend, conçue pour faciliter la lecture.
- *  - Texte : Atkinson Hyperlegible Next, dessinée par le Braille Institute
- *    pour être lisible par tous, quelle que soit l'acuité visuelle.
- *  - Texte courant à 18 px, contrastes AA renforcés (≥ 7:1 pour le texte).
+ *  - Titres, logotype, boutons : Space Grotesk.
+ *  - Labels et baseline : Space Mono, en bas de casse, légèrement espacée,
+ *    jamais de tiret d'ancrage.
+ *  - Texte courant : Atkinson Hyperlegible Next, pour la lisibilité d'un
+ *    public de 30 à 60 ans (la charte ne fixe pas de police de texte).
+ *  - Palette de la charte uniquement : bleu nuit, bleu clair, vague,
+ *    vague profonde, ivoire, ardoise.
  */
 
 @theme inline {
@@ -24,7 +25,8 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
   --font-sans: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Lexend", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -55,9 +57,9 @@
   --color-bleu: var(--bleu);
   --color-encre: var(--encre);
   --color-ardoise: var(--ardoise);
-  --color-gris: var(--gris);
+  --color-ivoire: var(--ivoire);
+  --color-ivoire-fonce: var(--ivoire-fonce);
   --color-ligne: var(--ligne);
-  --color-sable: var(--sable);
   --color-sur-marine: var(--sur-marine);
   --color-sur-marine-doux: var(--sur-marine-doux);
 
@@ -67,19 +69,23 @@
 :root {
   --radius: 0.75rem;
 
-  --marine: #0f2a3d;
-  --marine-profond: #0a1e2c;
-  --turquoise: #14a3a0;
-  --turquoise-fonce: #0b6f6c;
-  --turquoise-pale: #e6f4f3;
-  --bleu: #2c86af;
-  --encre: #13283a;
-  --ardoise: #45576a;
-  --gris: #f3f6f8;
-  --ligne: #d9e1e7;
-  --sable: #f7f2ea;
+  /* Palette de la charte */
+  --marine: #0f2a3d; /* bleu nuit */
+  --marine-profond: #0b2233; /* départ du dégradé de marque */
+  --bleu: #2c86af; /* bleu clair */
+  --turquoise: #14a3a0; /* vague */
+  --turquoise-fonce: #0e7c79; /* vague profonde */
+  --ivoire: #f7f5f0;
+  --ardoise: #445663; /* textes secondaires */
+  /* Nuances dérivées, pour l'interface */
+  --turquoise-pale: #e4f3f2;
+  --ivoire-fonce: #efece4;
+  --encre: #0f2a3d;
+  --ligne: #e2ded5;
   --sur-marine: #ffffff;
-  --sur-marine-doux: #c3d2de;
+  --sur-marine-doux: #c1cfda;
+
+  --degrade-marque: linear-gradient(90deg, #0b2233 0%, #1b4f6e 55%, #2c86af 100%);
 
   --background: #ffffff;
   --foreground: var(--encre);
@@ -89,16 +95,16 @@
   --popover-foreground: var(--encre);
   --primary: var(--turquoise-fonce);
   --primary-foreground: #ffffff;
-  --secondary: var(--gris);
+  --secondary: var(--ivoire);
   --secondary-foreground: var(--encre);
-  --muted: var(--gris);
+  --muted: var(--ivoire);
   --muted-foreground: var(--ardoise);
   --accent: var(--turquoise-pale);
   --accent-foreground: var(--encre);
   --destructive: #b42318;
   --destructive-foreground: #ffffff;
   --border: var(--ligne);
-  --input: #b9c6d0;
+  --input: #c2c9cf;
   --ring: var(--turquoise);
 
   --ombre-douce: 0 1px 2px rgb(15 42 61 / 6%), 0 8px 24px -12px rgb(15 42 61 / 18%);
@@ -192,23 +198,21 @@
   font-family: var(--font-display);
 }
 
-/* Petit intitulé au-dessus des titres : lisible, pas en capitales serrées. */
+/* Label au-dessus des titres : Space Mono, bas de casse, légèrement espacé,
+   sans tiret d'ancrage (charte). */
 @utility surtitre {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  font-weight: 500;
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
   color: var(--turquoise-fonce);
+}
 
-  &::before {
-    content: "";
-    width: 1.75rem;
-    height: 3px;
-    border-radius: 999px;
-    background: var(--turquoise);
-  }
+/* Filet au dégradé de marque. */
+@utility filet-marque {
+  background-image: var(--degrade-marque);
 }
 
 @utility lien {
@@ -232,10 +236,16 @@
   box-shadow: var(--ombre-douce);
 }
 
-@utility trace-logo {
-  stroke-dasharray: 60;
-  stroke-dashoffset: 60;
-  animation: trace 900ms var(--ease-sortie) 150ms forwards;
+/* Le monogramme se trace d'un seul geste (pathLength = 1). */
+@utility trace-monogramme {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: trace 1100ms cubic-bezier(0.65, 0, 0.35, 1) 150ms forwards;
+}
+
+@utility apparition-logotype {
+  opacity: 0;
+  animation: apparition 700ms var(--ease-sortie) 650ms forwards;
 }
 
 @utility flotte {
@@ -249,6 +259,12 @@
 @keyframes trace {
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+@keyframes apparition {
+  to {
+    opacity: 1;
   }
 }
 
@@ -273,9 +289,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .trace-logo {
+  .trace-monogramme {
     animation: none;
     stroke-dashoffset: 0;
+  }
+
+  .apparition-logotype {
+    animation: none;
+    opacity: 1;
   }
 
   .flotte,

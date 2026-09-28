@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 const VARIANTES = {
   /** Action principale, sur fond clair. */
   principal:
-    "bg-turquoise-fonce text-white hover:bg-marine shadow-[0_10px_24px_-12px_rgb(11_111_108/70%)]",
+    "bg-turquoise-fonce text-white hover:bg-marine shadow-[0_10px_24px_-12px_rgb(14_124_121/70%)]",
   /** Action secondaire, sur fond clair. */
   secondaire: "bg-white text-marine ring-2 ring-inset ring-marine/20 hover:ring-marine",
   /** Action principale, sur fond bleu marine ou photo. */

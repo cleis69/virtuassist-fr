@@ -82,7 +82,7 @@ export function BureauRange() {
           <EnTete
             surtitre="Concrètement"
             titre="Vous nous transmettez vos pièces. Nous les traitons."
-            intro="Par votre espace VirtuAssist, par email ou via l'outil que vous utilisez déjà : drive partagé, logiciel de facturation. Nous nous adaptons à votre organisation plutôt que de vous en imposer une."
+            intro="Par votre espace VIRTUASSIST, par email ou via l'outil que vous utilisez déjà : drive partagé, logiciel de facturation. Nous nous adaptons à votre organisation plutôt que de vous en imposer une."
           />
           <ListeCoches
             className="mt-8"

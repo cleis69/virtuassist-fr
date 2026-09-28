@@ -13,7 +13,7 @@ export const Route = createFileRoute("/fonctionnement")({
   head: () => ({
     meta: meta(
       "Comment ça marche",
-      "Diagnostic gratuit, plan de délégation, mise en place de votre espace, suivi et reporting : les quatre étapes pour déléguer votre administratif à VirtuAssist.",
+      "Diagnostic gratuit, plan de délégation, mise en place de votre espace, suivi et reporting : les quatre étapes pour déléguer votre administratif à VIRTUASSIST.",
     ),
   }),
   component: PageFonctionnement,
@@ -24,7 +24,7 @@ const PRATIQUE = [
     Icone: FolderInput,
     titre: "Transmettre vos documents",
     texte:
-      "Par votre espace VirtuAssist, par email ou via l'outil que vous utilisez déjà (drive partagé, logiciel de facturation). Nous nous adaptons à votre organisation existante.",
+      "Par votre espace VIRTUASSIST, par email ou via l'outil que vous utilisez déjà (drive partagé, logiciel de facturation). Nous nous adaptons à votre organisation existante.",
   },
   {
     Icone: CalendarDays,
@@ -66,7 +66,7 @@ function PageFonctionnement() {
         </div>
       </section>
 
-      <section className="bg-gris py-20 sm:py-28">
+      <section className="bg-ivoire py-20 sm:py-28">
         <div className="conteneur">
           <EnTete surtitre="Au quotidien" titre="Ce qu'il faut savoir pour travailler ensemble." />
           <ul className="mt-12 grid gap-5 md:grid-cols-2">
@@ -100,7 +100,7 @@ function PageFonctionnement() {
             <div>
               <p className="surtitre text-turquoise">Essai de 30 jours</p>
               <h2 className="mt-4 font-display text-[clamp(1.8rem,3.2vw,2.5rem)] font-semibold leading-tight text-white">
-                Testez VirtuAssist pendant 30 jours, sans engagement de durée.
+                Testez VIRTUASSIST pendant 30 jours, sans engagement de durée.
               </h2>
               <p className="mt-4 text-lg text-sur-marine-doux">
                 Vous arrêtez quand vous voulez, avec un préavis de 30 jours. Vos documents vous sont

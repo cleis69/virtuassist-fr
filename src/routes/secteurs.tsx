@@ -12,7 +12,7 @@ export const Route = createFileRoute("/secteurs")({
   head: () => ({
     meta: meta(
       "Pour qui : artisans, cabinets, agences, PME",
-      "VirtuAssist accompagne les structures qui n'ont pas de service administratif : artisans et bâtiment, professions libérales, agences immobilières, consultants, commerçants, indépendants, petites PME.",
+      "VIRTUASSIST accompagne les structures qui n'ont pas de service administratif : artisans et bâtiment, professions libérales, agences immobilières, consultants, commerçants, indépendants, petites PME.",
     ),
   }),
   component: PageSecteurs,
@@ -47,7 +47,7 @@ function PageSecteurs() {
         </div>
       </section>
 
-      <section className="bg-gris py-20 sm:py-28">
+      <section className="bg-ivoire py-20 sm:py-28">
         <div className="conteneur grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Photo cle="independants" ratio={4 / 3} sizes="(min-width: 1024px) 45vw, 100vw" />
           <div>

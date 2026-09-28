@@ -97,7 +97,7 @@ export function ContactForm({
       return;
     }
     // Aucun backend : la demande est préparée pour un envoi ultérieur.
-    console.info("Demande de diagnostic VirtuAssist", {
+    console.info("Demande de diagnostic VIRTUASSIST", {
       ...values,
       formule: CHOIX_FORMULES[values.formule],
     });
@@ -257,7 +257,7 @@ export function ContactForm({
                           "inline-flex min-h-12 cursor-pointer items-center gap-2 rounded-xl px-4 py-2.5 font-bold transition-colors duration-200 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-turquoise/30",
                           on
                             ? "bg-marine text-white"
-                            : "bg-gris text-marine ring-2 ring-inset ring-transparent hover:ring-marine/25",
+                            : "bg-ivoire text-marine ring-2 ring-inset ring-transparent hover:ring-marine/25",
                         )}
                       >
                         <input
