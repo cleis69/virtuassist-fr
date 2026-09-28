@@ -123,9 +123,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap",
       },
       // Intégration web prévue par la charte.
-      { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
-      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-      { rel: "apple-touch-icon", href: "/favicon-180-apple-touch-icon.png" },
+      { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.ico`, sizes: "32x32" },
+      { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.svg`, type: "image/svg+xml" },
+      { rel: "apple-touch-icon", href: `${import.meta.env.BASE_URL}favicon-180-apple-touch-icon.png` },
     ],
   }),
   shellComponent: RootShell,

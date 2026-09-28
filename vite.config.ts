@@ -6,10 +6,24 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+// Export statique pour GitHub Pages (https://cleis69.github.io/virtuassist-fr/).
+// Activé uniquement par le workflow .github/workflows/pages.yml : la
+// construction Lovable, elle, reste strictement identique.
+const PAGES = process.env.GITHUB_PAGES === "true";
+const BASE = "/virtuassist-fr/";
+
 export default defineConfig({
+  ...(PAGES ? { vite: { base: BASE } } : {}),
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
+    ...(PAGES
+      ? {
+          router: { basepath: BASE },
+          prerender: { enabled: true, crawlLinks: true, failOnError: true },
+          pages: [{ path: "/" }],
+        }
+      : {}),
   },
 });

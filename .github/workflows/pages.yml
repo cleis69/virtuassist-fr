@@ -1,0 +1,48 @@
+# Publie une version statique du site sur GitHub Pages à chaque envoi sur main :
+# https://cleis69.github.io/virtuassist-fr/
+#
+# GITHUB_PAGES=true active, dans vite.config.ts, le sous-chemin /virtuassist-fr/
+# et le pré-rendu de toutes les pages. La construction Lovable n'est pas concernée.
+
+name: GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  construire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun run build
+        env:
+          GITHUB_PAGES: "true"
+      # Adresse inconnue : GitHub Pages sert 404.html, le routeur affiche
+      # alors la page « introuvable » du site.
+      - run: cp .output/public/index.html .output/public/404.html && touch .output/public/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .output/public
+
+  publier:
+    needs: construire
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    steps:
+      - id: deploiement
+        uses: actions/deploy-pages@v4
