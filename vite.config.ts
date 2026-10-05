@@ -8,8 +8,8 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 // Export statique pour GitHub Pages (https://cleis69.github.io/virtuassist-fr/).
 // Activé uniquement par le workflow .github/workflows/pages.yml : la
-// construction Lovable, elle, reste strictement identique.
-const PAGES = process.env.GITHUB_PAGES === "true";
+// construction habituelle, elle, reste strictement identique.
+const PAGES = process.env["GITHUB_PAGES"] === "true";
 const BASE = "/virtuassist-fr/";
 
 export default defineConfig({

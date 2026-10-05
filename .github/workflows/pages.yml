@@ -2,7 +2,7 @@
 # https://cleis69.github.io/virtuassist-fr/
 #
 # GITHUB_PAGES=true active, dans vite.config.ts, le sous-chemin /virtuassist-fr/
-# et le pré-rendu de toutes les pages. La construction Lovable n'est pas concernée.
+# et le pré-rendu de toutes les pages. La construction habituelle n'est pas concernée.
 
 name: GitHub Pages
 

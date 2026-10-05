@@ -7,7 +7,7 @@ export const getRouter = () => {
 
   const router = createRouter({
     routeTree,
-    // « / » sur Lovable, « /virtuassist-fr/ » sur GitHub Pages.
+    // « / » à la racine du domaine, « /virtuassist-fr/ » sur GitHub Pages.
     basepath: import.meta.env.BASE_URL,
     context: { queryClient },
     scrollRestoration: true,

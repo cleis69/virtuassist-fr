@@ -1,26 +1,24 @@
-# Pixel Perfect Capture
+# VIRTUASSIST
 
-Implement exactly the screenshot and nothing else
+Site internet de VIRTUASSIST — assistance administrative externalisée pour les TPE, PME et
+indépendants, en France métropolitaine et à La Réunion.
 
-This project was built with [Lovable](https://lovable.dev).
+**En ligne** : https://cleis69.github.io/virtuassist-fr/
 
-**Live app**: https://virtuassist-fr.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/3ded2d25-9b2e-4cae-a13d-8a09d38c6c68).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+## Développement
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+bun install
+bun run dev
 ```
+
+## Publication
+
+Chaque envoi sur `main` publie automatiquement le site sur GitHub Pages
+(`.github/workflows/pages.yml`).
+
+## Contenu
+
+- Textes, tarifs, services, FAQ : `src/content/site.ts`
+- Photographies : `src/content/images.ts`
+- Logo et favicons : `public/brand/`, d'après la charte graphique
